@@ -1,0 +1,11 @@
+{
+  "/local/*": {
+    "target": "http://94.239.109.172:9090",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/local": ""
+    }
+  }
+}

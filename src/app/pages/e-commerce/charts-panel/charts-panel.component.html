@@ -1,0 +1,58 @@
+<nb-card size="large">
+  <nb-tabset fullWidth (changeTab)="changeTab($event)">
+    <nb-tab tabTitle="Stock">
+
+      <div class="summary-container">
+
+        <nb-card size="medium">
+
+          <nb-card-header>
+            <span>Available Stocks</span>
+
+            <input type="text" nbInput fullWidth   [(ngModel)]="query" (ngModelChange)="search()" >
+
+          </nb-card-header>
+
+          <br>
+          <nb-list class="user-activity-list">
+            <nb-list-item *ngFor="let item of listTickers">
+
+              <div class="visited-date">
+                {{ item.code }}
+              </div>
+
+              <div class="visited-date">
+                {{ item.name }}
+              </div>
+
+
+            </nb-list-item>
+          </nb-list>
+
+          <nb-card-footer>
+            <div class="row">
+              <div class="column2">
+                <button nbButton outline status="primary" (click)="Paginate('left')"> back </button>
+              </div>
+              <div class="column2">
+                <button style="float: right"  nbButton outline status="primary" (click)="Paginate('right')"> more </button>
+              </div>
+
+            </div>
+          </nb-card-footer>
+
+        </nb-card>
+
+
+      </div>
+
+    </nb-tab>
+    <nb-tab tabTitle="Crypto" [lazyLoad]="true">
+
+      <div class="summary-container">
+        <p> HEllo crypto</p>
+      </div>
+
+    </nb-tab>
+  </nb-tabset>
+</nb-card>
