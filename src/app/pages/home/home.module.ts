@@ -13,7 +13,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { ThemeModule } from '../../@theme/theme.module';
-import { ECommerceComponent } from './e-commerce.component';
+import { HomeComponent } from './home.component';
 import { ProfitCardComponent } from './profit-card/profit-card.component';
 import { ECommerceChartsPanelComponent } from './charts-panel/charts-panel.component';
 import { OrdersChartComponent } from './charts-panel/charts/orders-chart.component';
@@ -41,7 +41,7 @@ import {
   ECommerceVisitorsStatisticsComponent,
 } from './visitors-analytics/visitors-statistics/visitors-statistics.component';
 import { ECommerceLegendChartComponent } from './legend-chart/legend-chart.component';
-import { ECommerceUserActivityComponent } from './user-activity/user-activity.component';
+import { HomeDisplayComponent } from './home/home-display.component';
 import { ECommerceProgressSectionComponent } from './progress-section/progress-section.component';
 import { SlideOutComponent } from './slide-out/slide-out.component';
 
@@ -55,27 +55,27 @@ import { EarningCardBackComponent } from './earning-card/back-side/earning-card-
 import { EarningPieChartComponent } from './earning-card/back-side/earning-pie-chart.component';
 import { EarningCardFrontComponent } from './earning-card/front-side/earning-card-front.component';
 import { EarningLiveUpdateChartComponent } from './earning-card/front-side/earning-live-update-chart.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
-    imports: [
-        ThemeModule,
-        NbCardModule,
-        NbUserModule,
-        NbButtonModule,
-        NbIconModule,
-        NbTabsetModule,
-        NbSelectModule,
-        NbListModule,
-        ChartModule,
-        NbProgressBarModule,
-        NgxEchartsModule,
-        NgxChartsModule,
-        LeafletModule,
-        FormsModule,
-    ],
+  imports: [
+    ThemeModule,
+    NbCardModule,
+    NbUserModule,
+    NbButtonModule,
+    NbIconModule,
+    NbTabsetModule,
+    NbSelectModule,
+    NbListModule,
+    ChartModule,
+    NbProgressBarModule,
+    NgxEchartsModule,
+    NgxChartsModule,
+    LeafletModule,
+    FormsModule,
+  ],
   declarations: [
-    ECommerceComponent,
+    HomeComponent,
     StatsCardFrontComponent,
     StatsAreaChartComponent,
     StatsBarAnimationChartComponent,
@@ -99,7 +99,7 @@ import {FormsModule} from "@angular/forms";
     ECommerceVisitorsAnalyticsChartComponent,
     ECommerceVisitorsStatisticsComponent,
     ECommerceLegendChartComponent,
-    ECommerceUserActivityComponent,
+    HomeDisplayComponent,
     ECommerceProgressSectionComponent,
     SlideOutComponent,
     EarningCardComponent,
@@ -111,5 +111,8 @@ import {FormsModule} from "@angular/forms";
   providers: [
     CountryOrdersMapService,
   ],
+  exports: [
+    ECommerceChartsPanelComponent,
+  ],
 })
-export class ECommerceModule { }
+export class HomeModule { }

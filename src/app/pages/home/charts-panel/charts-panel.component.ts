@@ -105,6 +105,8 @@ export class ECommerceChartsPanelComponent implements OnDestroy, OnInit {
         minThreshold: 0,
         price: 0,
       }]);
+
+      localStorage.setItem('selectedItems', JSON.stringify(this.selectedTickers));
     }
 
   }

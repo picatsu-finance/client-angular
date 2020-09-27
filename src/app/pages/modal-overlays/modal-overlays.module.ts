@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  NbButtonModule,
-  NbCardModule,
-  NbCheckboxModule,
-  NbDialogModule,
-  NbInputModule,
-  NbPopoverModule,
-  NbSelectModule,
-  NbTabsetModule,
-  NbTooltipModule,
-  NbWindowModule,
+    NbButtonModule,
+    NbCardModule,
+    NbCheckboxModule,
+    NbDialogModule,
+    NbInputModule, NbListModule,
+    NbPopoverModule,
+    NbSelectModule,
+    NbTabsetModule,
+    NbTooltipModule,
+    NbWindowModule,
 } from '@nebular/theme';
 
 // modules
@@ -77,9 +77,10 @@ const SERVICES = [
 ];
 
 @NgModule({
-  imports: [
-    ...MODULES,
-  ],
+    imports: [
+        ...MODULES,
+        NbListModule,
+    ],
   declarations: [
     ...COMPONENTS,
   ],

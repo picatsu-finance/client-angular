@@ -4,6 +4,7 @@ export interface SelectedTickers {
   maxThreshold: number;
   minThreshold: number;
   price: number;
+  type: string;
 }
 
 

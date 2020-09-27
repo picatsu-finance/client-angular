@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {SelectedTickers, Tickers, TickersPaginated} from 'app/pages/utils/model';
 import {FinanceService} from '../../utils/finance.service';
 import {Router} from '@angular/router';
+import {ShowcaseDialogComponent} from '../../modal-overlays/dialog/showcase-dialog/showcase-dialog.component';
+import {NbDialogService} from '@nebular/theme';
 
 @Component({
   selector: 'ngx-input-product',
@@ -17,9 +19,17 @@ export class InputProductComponent implements OnInit {
   query: any;
   numberShow = 10;
   constructor(private service: FinanceService,
+              private dialogService: NbDialogService,
               private router: Router) { }
 
 
+  open() {
+    this.dialogService.open(ShowcaseDialogComponent, {
+      context: {
+        title: 'This is a title passed to the dialog component',
+      },
+    });
+  }
   removeItem(item: SelectedTickers) {
     const index: number = this.selectedTickers.indexOf(item);
     if (index !== -1) {
@@ -58,7 +68,7 @@ export class InputProductComponent implements OnInit {
     this.numberShow += 10;
   }
   addItem(item: Tickers) {
-    if ( this.selectedTickers === null ) {
+    if (this.selectedTickers === null ) {
       this.loadPrice(item);
       this.selectedTickers = [];
       this.selectedTickers.push( ... [{

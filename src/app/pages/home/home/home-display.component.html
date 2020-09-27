@@ -1,0 +1,136 @@
+
+<div class="steppers-container row">
+
+
+
+
+
+  <div class="col-md-12 col-lg-6 col-xxxl-6">
+    <nb-card  >
+      <nb-card-header>
+        <span>My Tracked Values</span>
+        <nb-select [selected]="type" (selectedChange)="getUserActivity($event); type = $event">
+          <nb-option *ngFor="let t of types" [value]="t">{{ t }}</nb-option>
+        </nb-select>
+
+      </nb-card-header>
+
+      <nb-list class="user-activity-list">
+        <nb-list-item *ngFor="let item of selectedTickers">
+
+          <div class="visited-date" >
+            {{ item.code }}
+          </div>
+
+          <div class="visited-pages-count">
+            <div class="caption">Price</div>
+            <div class="value">{{ item.price }}</div>
+          </div>
+
+          <div class="visited-percentages">
+            <div class="caption">Min</div>
+            <div class="delta value" [class.up]="false" [class.down]="true">
+              <nb-icon [icon]="'arrow-down'" pack="eva"></nb-icon>
+              {{ item.minThreshold }}$
+            </div>
+          </div>
+
+          <div class="visited-percentages">
+            <div class="caption">Max</div>
+            <div class="delta value" [class.up]="true" [class.down]="false">
+              <nb-icon [icon]="'arrow-up'" pack="eva"></nb-icon>
+              {{ item.maxThreshold }}$
+            </div>
+          </div>
+
+          <div class="visited-percentages">
+
+            <div class="delta value"  (click)="removeItem(item)">
+              <nb-icon [icon]="'trash-2-outline'" pack="eva"></nb-icon>
+              Delete
+            </div>
+          </div>
+        </nb-list-item>
+      </nb-list>
+
+
+    </nb-card>
+  </div>
+
+
+
+
+  <div class="col-md-12 col-lg-6 col-xxxl-6">
+
+
+    <nb-card>
+      <nb-tabset fullWidth  >
+        <nb-tab tabTitle="Stock">
+
+          <div class="summary-container">
+            <nb-card size="medium">
+              <nb-card-header>
+                <span>Available Stocks</span>
+                <input type="text" nbInput fullWidth   [(ngModel)]="query" (ngModelChange)="search()" >
+              </nb-card-header>
+
+              <br>
+              <nb-list class="user-activity-list">
+                <nb-list-item *ngFor="let item of listTickers">
+
+                  <div class="visited-date" (click)="open(item, 'stock')">
+                    {{ item.code }}
+                  </div>
+
+                  <div class="visited-date">
+                    {{ item.name }}
+                  </div>
+
+
+                </nb-list-item>
+              </nb-list>
+
+              <nb-card-footer>
+                <div class="row">
+                  <div class="column2">
+                    <button nbButton outline status="primary" (click)="Paginate('left')"> back </button>
+                  </div>
+                  <div class="column2">
+                    <button style="float: right"  nbButton outline status="primary" (click)="Paginate('right')"> more </button>
+                  </div>
+
+                </div>
+              </nb-card-footer>
+
+            </nb-card>
+
+
+          </div>
+
+        </nb-tab>
+        <nb-tab tabTitle="Crypto" [lazyLoad]="true">
+
+          <div class="summary-container">
+            <p> HEllo crypto</p>
+          </div>
+
+        </nb-tab>
+        <nb-tab tabTitle="Forex" [lazyLoad]="true">
+
+          <div class="summary-container">
+            <p> HEllo Forex</p>
+          </div>
+
+        </nb-tab>
+        <nb-tab tabTitle="Options" [lazyLoad]="true">
+
+          <div class="summary-container">
+            <p> HEllo option</p>
+          </div>
+
+        </nb-tab>
+      </nb-tabset>
+    </nb-card>
+  </div>
+</div>
+

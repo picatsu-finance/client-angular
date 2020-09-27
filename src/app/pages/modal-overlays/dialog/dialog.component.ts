@@ -17,7 +17,7 @@ export class DialogComponent {
   open() {
     this.dialogService.open(ShowcaseDialogComponent, {
       context: {
-        title: 'This is a title passed to the dialog component',
+        value: null,
       },
     });
   }

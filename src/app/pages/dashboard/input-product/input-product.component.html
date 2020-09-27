@@ -1,43 +1,71 @@
 
 
-<nb-card size="small">
-  <nb-card-header>
-    <input type="text" label="search" nbInput fullWidth shape="round" placeholder="Search" [(ngModel)]="query" (ngModelChange)="search()" >
 
-    <div class="row">
-      <div class="column2"> Code </div>
-      <div class="column2"> Name </div>
+<nb-card size="large" >
+  <nb-tabset fullWidth  >
+    <nb-tab tabTitle="Stock">
 
-    </div>
-  </nb-card-header>
-  <nb-list>
-    <nb-list-item (scroll)="incrementSplice()" style="display: block" *ngFor="let item of listTickers" >
-      <div class="row" (click)="addItem(item)">
-        <div class="column2"> {{item.code}}</div>
-        <div class="column2"> {{item.name}} </div>
+      <div class="summary-container">
+
+        <nb-card size="medium">
+
+          <nb-card-header>
+            <span>Available Stocks</span>
+
+            <input type="text" nbInput fullWidth   [(ngModel)]="query" (ngModelChange)="search()" >
+
+          </nb-card-header>
+
+          <br>
+          <nb-list class="user-activity-list">
+            <nb-list-item *ngFor="let item of listTickers">
+
+              <div class="visited-date" (click)="addItem(item)">
+                {{ item.code }}
+              </div>
+
+              <div class="visited-date">
+                {{ item.name }}
+              </div>
+
+
+            </nb-list-item>
+          </nb-list>
+
+          <nb-card-footer>
+            <div class="row">
+              <div class="column2">
+                <button nbButton outline status="primary" (click)="Paginate('left')"> back </button>
+              </div>
+              <div class="column2">
+                <button style="float: right"  nbButton outline status="primary" (click)="Paginate('right')"> more </button>
+              </div>
+
+            </div>
+          </nb-card-footer>
+
+        </nb-card>
+
+
       </div>
-    </nb-list-item>
 
-  </nb-list>
-  <br>
-  <div class="row">
-    <div class="column2">
-      <button nbButton outline status="primary" (click)="Paginate('left')"> back </button>
-    </div>
-    <div class="column2">
-      <button style="float: right"  nbButton outline status="primary" (click)="Paginate('right')"> more </button>
-    </div>
+    </nb-tab>
+    <nb-tab tabTitle="Crypto" [lazyLoad]="true">
 
-  </div>
+      <div class="summary-container">
+        <p> HEllo crypto</p>
+      </div>
+
+    </nb-tab>
+  </nb-tabset>
 </nb-card>
 
 
 
-
-<nb-card size="small">
+<nb-card size="large">
   <nb-card-header>
     <div class="row">
-      <div class="column4"> Code</div>
+      <div class="column4" > Code</div>
       <div class="column4"> Price </div>
       <div class="column4"> Min </div>
       <div class="column4"> Max </div>
@@ -48,7 +76,7 @@
   <nb-list>
     <nb-list-item style="display: block" *ngFor="let item of selectedTickers">
       <div class="row">
-        <div class="column4"> {{item.code}}</div>
+        <div class="column4" (click)="open()"> {{item.code}}</div>
         <div class="column4"> {{item.price}} </div>
         <div class="column4">
           <input type="number" value="{{item.minThreshold}}"  [(ngModel)]="item.minThreshold" class="column2">

@@ -4,7 +4,7 @@ import { NbMenuModule } from '@nebular/theme';
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { ECommerceModule } from './e-commerce/e-commerce.module';
+import { HomeModule } from './home/home.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 
@@ -14,7 +14,7 @@ import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
     ThemeModule,
     NbMenuModule,
     DashboardModule,
-    ECommerceModule,
+    HomeModule,
     MiscellaneousModule,
   ],
   declarations: [
