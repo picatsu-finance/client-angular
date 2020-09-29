@@ -1,3 +1,38 @@
+
+export interface CryptoPrices {
+  quoteResponse: {
+    result: [{
+      language: string;
+      region: string;
+      quoteType: string;
+      quoteSourceName: string;
+      triggerable: boolean;
+      marketState: string;
+      exchange: string;
+      exchangeTimezoneName: string;
+      exchangeTimezoneShortName: string;
+      gmtOffSetMilliseconds: number;
+      market: string;
+      esgPopulated: boolean;
+      firstTradeDateMilliseconds: number;
+      priceHint: number;
+      regularMarketChange: number;
+      regularMarketChangePercent: number;
+      regularMarketTime: number;
+      regularMarketPrice: number;
+      regularMarketVolume: number;
+      regularMarketPreviousClose: number;
+      fullExchangeName: string;
+      sourceInterval: number;
+      exchangeDataDelayedBy: number;
+      tradeable: boolean;
+      symbol: string;
+    }],
+    error: any;
+  };
+}
+
+
 export interface SelectedTickers {
   name: string;
   code: string;
@@ -5,6 +40,15 @@ export interface SelectedTickers {
   minThreshold: number;
   price: number;
   type: string;
+}
+
+export interface  Crypto {
+  id: string;
+  name: string;
+  symbol: string;
+  slug: string;
+  status: string;
+  platform: any;
 }
 
 
@@ -44,3 +88,17 @@ export interface TickersPaginated {
   empty: boolean;
 }
 
+
+export interface CryptoPaginated {
+  content: Crypto[];
+  pageable: Pageable;
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  sort: Sort;
+  size: number;
+  number: number;
+  numberOfElements: number;
+  first: boolean;
+  empty: boolean;
+}

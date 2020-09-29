@@ -76,7 +76,7 @@
   <nb-list>
     <nb-list-item style="display: block" *ngFor="let item of selectedTickers">
       <div class="row">
-        <div class="column4" (click)="open()"> {{item.code}}</div>
+        <div class="column4" > {{item.code}}</div>
         <div class="column4"> {{item.price}} </div>
         <div class="column4">
           <input type="number" value="{{item.minThreshold}}"  [(ngModel)]="item.minThreshold" class="column2">

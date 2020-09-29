@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 import {FinanceService} from '../../../utils/finance.service';
-import {SelectedTickers, Tickers} from '../../../utils/model';
+import {CryptoPrices, SelectedTickers, Tickers} from '../../../utils/model';
 
 @Component({
   selector: 'ngx-showcase-dialog',
@@ -23,7 +23,7 @@ export class ShowcaseDialogComponent implements OnInit {
   }
 
   validate() {
-    if(this.selectedTickers === null) {
+    if (this.selectedTickers === null) {
       this.selectedTickers = [];
     }
     this.selectedTickers.push(... [this.blancSelectedTickers]);
@@ -34,7 +34,19 @@ export class ShowcaseDialogComponent implements OnInit {
 
   ngOnInit() {
     this.selectedTickers = this.service.getSelectedTickers();
-    this.service.loadSinglePrince(this.value.code).subscribe( (x: number) => {
+
+    if ( this.type === 'stock' ) {
+      this.loadStock();
+    }
+    if ( this.type === 'crypto') {
+      this.loadCrypto();
+    }
+    console.log(this.type + this.value);
+  }
+
+  loadStock() {
+
+    this.service.loadSingleStockPrice(this.value.code).subscribe( (x: number) => {
       this.blancSelectedTickers = {
         name: this.value.name,
         code: this.value.code,
@@ -46,5 +58,17 @@ export class ShowcaseDialogComponent implements OnInit {
     });
   }
 
+  loadCrypto() {
 
+    this.service.loadSingleCryptoPrice(this.value.code, 'USD').subscribe( (x: CryptoPrices) => {
+      this.blancSelectedTickers = {
+        name: this.value.name,
+        code: this.value.code,
+        maxThreshold: x.quoteResponse.result[0].regularMarketPrice,
+        minThreshold: x.quoteResponse.result[0].regularMarketPrice,
+        price: x.quoteResponse.result[0].regularMarketPrice,
+        type: this.type,
+      };
+    });
+  }
 }

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {SelectedTickers, Tickers, TickersPaginated} from 'app/pages/utils/model';
-import {FinanceService} from '../../utils/finance.service';
-import {Router} from '@angular/router';
-import {ShowcaseDialogComponent} from '../../modal-overlays/dialog/showcase-dialog/showcase-dialog.component';
-import {NbDialogService} from '@nebular/theme';
+import {
+  SelectedTickers,
+  Tickers,
+  TickersPaginated,
+} from 'app/pages/utils/model';
+import { FinanceService } from '../../utils/finance.service';
+import { Router } from '@angular/router';
+import { NbDialogService } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-input-product',
@@ -11,25 +14,18 @@ import {NbDialogService} from '@nebular/theme';
   styleUrls: ['./input-product.component.scss'],
 })
 export class InputProductComponent implements OnInit {
-
   listTickers: Tickers[] = null;
   page = 1;
   size = 10;
   selectedTickers: SelectedTickers[] = [];
   query: any;
   numberShow = 10;
-  constructor(private service: FinanceService,
-              private dialogService: NbDialogService,
-              private router: Router) { }
+  constructor(
+    private service: FinanceService,
+    private dialogService: NbDialogService,
+    private router: Router,
+  ) {}
 
-
-  open() {
-    this.dialogService.open(ShowcaseDialogComponent, {
-      context: {
-        title: 'This is a title passed to the dialog component',
-      },
-    });
-  }
   removeItem(item: SelectedTickers) {
     const index: number = this.selectedTickers.indexOf(item);
     if (index !== -1) {
@@ -38,27 +34,29 @@ export class InputProductComponent implements OnInit {
   }
 
   getTickersList() {
-    this.service.getListTickers(this.page, this.size).subscribe( (x: TickersPaginated) => {
-      this.listTickers = x.content;
-    });
+    this.service
+      .getListTickers(this.page, this.size)
+      .subscribe((x: TickersPaginated) => {
+        this.listTickers = x.content;
+      });
   }
 
   search() {
     if (this.query.length >= 3) {
-      this.service.searchStr(this.query).subscribe( (x: Tickers[]) => { this.listTickers = x; });
-
+      this.service.searchStr(this.query).subscribe((x: Tickers[]) => {
+        this.listTickers = x;
+      });
     }
   }
 
   Paginate(direction: string) {
-
     if (direction === 'right') {
       this.page++;
       this.getTickersList();
     }
 
     if (direction === 'left') {
-      if (this.page > 0 ) {
+      if (this.page > 0) {
         this.page--;
       }
       this.getTickersList();
@@ -67,36 +65,11 @@ export class InputProductComponent implements OnInit {
   incrementSplice() {
     this.numberShow += 10;
   }
-  addItem(item: Tickers) {
-    if (this.selectedTickers === null ) {
-      this.loadPrice(item);
-      this.selectedTickers = [];
-      this.selectedTickers.push( ... [{
-        name: item.name,
-        code: item.code,
-        maxThreshold: 0,
-        minThreshold: 0,
-        price: 0,
-      }]);
-    }
-
-    if (!this.selectedTickers.some(e => e.code === item.code)) {
-      this.loadPrice(item);
-
-      this.selectedTickers.push( ... [{
-        name: item.name,
-        code: item.code,
-        maxThreshold: 0,
-        minThreshold: 0,
-        price: 0,
-      }]);
-    }
-
-  }
+  addItem(item: Tickers) {}
 
   loadPrice(item: Tickers) {
-    this.service.loadSinglePrince(item.code).subscribe( (x: number) => {
-       this.selectedTickers.forEach( value => {
+    this.service.loadSingleStockPrice(item.code).subscribe((x: number) => {
+      this.selectedTickers.forEach((value) => {
         if (value.code === item.code) {
           value.price = x;
         }
@@ -109,13 +82,13 @@ export class InputProductComponent implements OnInit {
   }
 
   getSelectedTickers() {
-    this.selectedTickers = JSON.parse(localStorage.getItem('selectedItems' )) as SelectedTickers[];
+    this.selectedTickers = JSON.parse(
+      localStorage.getItem('selectedItems'),
+    ) as SelectedTickers[];
   }
 
   ngOnInit(): void {
     this.getTickersList();
     this.getSelectedTickers();
-
   }
-
 }

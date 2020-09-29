@@ -86,33 +86,17 @@ export class ECommerceChartsPanelComponent implements OnDestroy, OnInit {
     if ( this.selectedTickers === null ) {
       this.loadPrice(item);
       this.selectedTickers = [];
-      this.selectedTickers.push( ... [{
-        name: item.name,
-        code: item.code,
-        maxThreshold: 0,
-        minThreshold: 0,
-        price: 0,
-      }]);
     }
 
     if (!this.selectedTickers.some(e => e.code === item.code)) {
       this.loadPrice(item);
-
-      this.selectedTickers.push( ... [{
-        name: item.name,
-        code: item.code,
-        maxThreshold: 0,
-        minThreshold: 0,
-        price: 0,
-      }]);
-
       localStorage.setItem('selectedItems', JSON.stringify(this.selectedTickers));
     }
 
   }
 
   loadPrice(item: Tickers) {
-    this.service.loadSinglePrince(item.code).subscribe( (x: number) => {
+    this.service.loadSingleStockPrice(item.code).subscribe( (x: number) => {
       this.selectedTickers.forEach( value => {
         if (value.code === item.code) {
           value.price = x;
