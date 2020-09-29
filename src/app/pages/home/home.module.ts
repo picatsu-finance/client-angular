@@ -7,7 +7,7 @@ import {
   NbUserModule,
   NbIconModule,
   NbSelectModule,
-  NbListModule,
+  NbListModule, NbInputModule,
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -41,7 +41,7 @@ import {
   ECommerceVisitorsStatisticsComponent,
 } from './visitors-analytics/visitors-statistics/visitors-statistics.component';
 import { ECommerceLegendChartComponent } from './legend-chart/legend-chart.component';
-import { HomeDisplayComponent } from './home/home-display.component';
+import { HomeDisplayComponent } from './home-display/home-display.component';
 import { ECommerceProgressSectionComponent } from './progress-section/progress-section.component';
 import { SlideOutComponent } from './slide-out/slide-out.component';
 
@@ -64,6 +64,7 @@ import {FormsModule} from '@angular/forms';
     NbUserModule,
     NbButtonModule,
     NbIconModule,
+    NbInputModule,
     NbTabsetModule,
     NbSelectModule,
     NbListModule,
