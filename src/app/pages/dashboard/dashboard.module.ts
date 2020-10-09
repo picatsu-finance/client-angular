@@ -7,7 +7,7 @@ import {
   NbUserModule,
   NbIconModule,
   NbSelectModule,
-  NbListModule, NbInputModule,
+  NbListModule, NbInputModule, NbSidebarModule
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -17,6 +17,7 @@ import { ChartModule } from 'angular2-chartjs';
 import { HomeDisplayComponent } from './home-display/home-display.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import {FormsModule} from '@angular/forms';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
   imports: [
@@ -35,6 +36,8 @@ import {FormsModule} from '@angular/forms';
     NgxChartsModule,
     LeafletModule,
     FormsModule,
+    Ng2SmartTableModule,
+    NbSidebarModule
   ],
   declarations: [
     DashboardComponent,

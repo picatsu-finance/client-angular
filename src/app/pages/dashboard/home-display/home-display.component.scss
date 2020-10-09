@@ -64,4 +64,10 @@
     float: left;
     width: 50%;
   }
+
+}
+::ng-deep .customTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 15px 25px;
 }

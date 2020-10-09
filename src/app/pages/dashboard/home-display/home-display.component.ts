@@ -6,6 +6,7 @@ import { UserActivityData, UserActive } from '../../../@core/data/user-activity'
 import {FinanceService} from '../../utils/finance.service';
 import {Crypto, CryptoPaginated, CryptoPrices, SelectedTickers, Tickers, TickersPaginated} from '../../utils/model';
 import {ShowcaseDialogComponent} from '../../custom-basket/dialog/showcase-dialog/showcase-dialog.component';
+import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
   selector: 'ngx-home-display',
@@ -13,9 +14,29 @@ import {ShowcaseDialogComponent} from '../../custom-basket/dialog/showcase-dialo
   templateUrl: './home-display.component.html',
 })
 export class HomeDisplayComponent implements OnDestroy, OnInit {
-
+  display: boolean = false;
+  settings = {
+    columns: {
+      code: {
+        title: 'Code',
+        filter: false,
+      },
+      price: {
+        title: 'price',
+        filter: false,
+      },
+      minThreshold: {
+        title: 'minThreshold',
+        filter: false,
+      },
+      maxThreshold: {
+        title: 'maxThreshold',
+        filter: false,
+      },
+    },
+  };
   private alive = true;
-
+  source: LocalDataSource;
   userActivity: UserActive[] = [];
   type = 'stock';
   types = ['stock', 'crypto', 'forex', 'option'];
@@ -74,6 +95,7 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
       .pipe(takeWhile(() => this.alive))
       .subscribe(userActivityData => {
         this.userActivity = userActivityData;
+
       });
   }
 
