@@ -43,14 +43,14 @@ const routes: Routes = [{
         .then(m => m.ExtraProductsModule),
     },
     {
-      path: 'profil',
-      loadChildren: () => import('./profil/profil.module')
-        .then(m => m.ProfilModule),
-    },
-    {
       path: 'charts',
       loadChildren: () => import('./charts/charts.module')
         .then(m => m.ChartsModule),
+    },
+    {
+      path: 'auth',
+      loadChildren: () => import('./auth/auth.module')
+        .then(m => m.AuthModule),
     },
     {
       path: '',

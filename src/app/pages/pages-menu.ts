@@ -145,28 +145,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
-    title: 'Profil',
-    icon: 'map-outline',
-    children: [
-      {
-        title: 'Google Maps',
-        link: '/pages/profil/gmaps',
-      },
-      {
-        title: 'Leaflet Maps',
-        link: '/pages/profil/leaflet',
-      },
-      {
-        title: 'Bubble Maps',
-        link: '/pages/profil/bubble',
-      },
-      {
-        title: 'Search Maps',
-        link: '/pages/profil/searchmap',
-      },
-    ],
-  },
-  {
     title: 'Charts',
     icon: 'pie-chart-outline',
     children: [
@@ -184,26 +162,29 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
-
   {
     title: 'Auth',
     icon: 'lock-outline',
     children: [
       {
         title: 'Login',
-        link: '/auth/login',
+        link: '/pages/auth/login',
+      },
+      {
+        title: 'Profil',
+        link: '/pages/auth/profile',
       },
       {
         title: 'Register',
-        link: '/auth/register',
+        link: '/pages/auth/register',
       },
       {
         title: 'Request Password',
-        link: '/auth/request-password',
+        link: '/pages/auth/request-password',
       },
       {
         title: 'Reset Password',
-        link: '/auth/reset-password',
+        link: '/pages/auth/reset-password',
       },
     ],
   },
