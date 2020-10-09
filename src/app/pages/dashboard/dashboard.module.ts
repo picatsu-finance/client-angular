@@ -1,75 +1,48 @@
 import { NgModule } from '@angular/core';
 import {
-  NbActionsModule,
   NbButtonModule,
   NbCardModule,
+  NbProgressBarModule,
   NbTabsetModule,
   NbUserModule,
-  NbRadioModule,
-  NbSelectModule,
-  NbListModule,
   NbIconModule,
+  NbSelectModule,
+  NbListModule, NbInputModule,
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
-
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ThemeModule } from '../../@theme/theme.module';
 import { DashboardComponent } from './dashboard.component';
-import { StatusCardComponent } from './status-card/status-card.component';
-import { ContactsComponent } from './contacts/contacts.component';
-import { RoomsComponent } from './rooms/rooms.component';
-import { RoomSelectorComponent } from './rooms/room-selector/room-selector.component';
-import { TemperatureComponent } from './temperature/temperature.component';
-import { TemperatureDraggerComponent } from './temperature/temperature-dragger/temperature-dragger.component';
-import { KittenComponent } from './kitten/kitten.component';
-import { SecurityCamerasComponent } from './security-cameras/security-cameras.component';
-import { ElectricityComponent } from './electricity/electricity.component';
-import { ElectricityChartComponent } from './electricity/electricity-chart/electricity-chart.component';
-import { WeatherComponent } from './weather/weather.component';
-import { SolarComponent } from './solar/solar.component';
-import { PlayerComponent } from './rooms/player/player.component';
-import { TrafficComponent } from './traffic/traffic.component';
-import { TrafficChartComponent } from './traffic/traffic-chart.component';
-import { FormsModule } from '@angular/forms';
-import { HomeComponent } from './home/home.component';
-import { InputProductComponent } from './input-product/input-product.component';
-import {HomeModule} from "../home/home.module";
+import { ChartModule } from 'angular2-chartjs';
+import { HomeDisplayComponent } from './home-display/home-display.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
-    imports: [
-        FormsModule,
-        ThemeModule,
-        NbCardModule,
-        NbUserModule,
-        NbButtonModule,
-        NbTabsetModule,
-        NbActionsModule,
-        NbRadioModule,
-        NbSelectModule,
-        NbListModule,
-        NbIconModule,
-        NbButtonModule,
-        NgxEchartsModule,
-        HomeModule,
-    ],
+  imports: [
+    ThemeModule,
+    NbCardModule,
+    NbUserModule,
+    NbButtonModule,
+    NbIconModule,
+    NbInputModule,
+    NbTabsetModule,
+    NbSelectModule,
+    NbListModule,
+    ChartModule,
+    NbProgressBarModule,
+    NgxEchartsModule,
+    NgxChartsModule,
+    LeafletModule,
+    FormsModule,
+  ],
   declarations: [
     DashboardComponent,
-    StatusCardComponent,
-    TemperatureDraggerComponent,
-    ContactsComponent,
-    RoomSelectorComponent,
-    TemperatureComponent,
-    RoomsComponent,
-    KittenComponent,
-    SecurityCamerasComponent,
-    ElectricityComponent,
-    ElectricityChartComponent,
-    WeatherComponent,
-    PlayerComponent,
-    SolarComponent,
-    TrafficComponent,
-    TrafficChartComponent,
-    HomeComponent,
-    InputProductComponent,
+    HomeDisplayComponent,
+  ],
+  providers: [
+  ],
+  exports: [
   ],
 })
 export class DashboardModule { }
