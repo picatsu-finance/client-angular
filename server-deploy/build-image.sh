@@ -3,12 +3,12 @@
 #ng build --prod
 #cd server-deploy/
 ./gradlew clean build -x test
-JAR_FILE=$(ls build/libs/ | grep "^demo")
+JAR_FILE=$(ls build/libs/ | grep "^serverdeploy")
 
 
-docker build . --build-arg jar=build/libs/$JAR_FILE -t ezzefiohez/finance-ui
-docker push ezzefiohez/finance-ui
+docker build . --build-arg jar=build/libs/$JAR_FILE -t ezzefiohez/finance-client
+docker push ezzefiohez/finance-client
 
 echo " ######## BUILD finance ui DONE ######## "
 
-curl  -X POST http://94.239.109.172:9000/api/webhooks/efa399a8-6de2-4c52-8dc3-3b0ec66c1f37
+curl  -X POST http://146.59.195.214:9000/api/webhooks/1b3fe6ec-31d6-40ab-a9d0-d0bb56bcbc7f

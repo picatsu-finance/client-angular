@@ -1,13 +1,15 @@
 
 
 
-<div class="steppers-container row">
+ <div class="steppers-container row" >
 
   <div class="col-md-12 col-lg-6 col-xxxl-6"  >
 
+
     <nb-card  >
       <nb-card-header>
-        <span>My Tracked Values</span>
+        <span>My Tracked Values </span>
+        <div class="caption">Currency in EUR</div>
         <nb-select [selected]="type" (selectedChange)="getUserActivity($event); type = $event"
                    style="float: right">
           <nb-option *ngFor="let t of types" [value]="t">{{ t }}</nb-option>
@@ -36,21 +38,21 @@
 
                 <div class="delta value" [class.up]="false" [class.down]="true">
                   <nb-icon [icon]="'arrow-down'" pack="eva"></nb-icon>
-                  {{ item.minThreshold }}$
+                  {{ item.minThreshold }} €
                 </div>
               </td>
 
 
               <td class="visited-percentages" >
 
-                <div class="value">{{ item.price }}</div>
+                <div class="value">{{ item.price }} €</div>
               </td>
 
               <td class="visited-percentages">
 
                 <div class="delta value" [class.up]="true" [class.down]="false">
                   <nb-icon [icon]="'arrow-up'" pack="eva"></nb-icon>
-                  {{ item.maxThreshold }}$
+                  {{ item.maxThreshold }} €
                 </div>
               </td>
 
@@ -77,7 +79,6 @@
 
 
   </div>
-
 
   <div class="col-md-12 col-lg-6 col-xxxl-6">
 
@@ -175,10 +176,49 @@
           </div>
 
         </nb-tab>
+
         <nb-tab tabTitle="Forex" [lazyLoad]="true">
 
           <div class="summary-container">
-            <p> HEllo Forex</p>
+            <nb-card size="medium">
+              <nb-card-header>
+                <span>Available Forex</span>
+                <input type="text" nbInput   shape="semi-round"  [(ngModel)]="query" (ngModelChange)="searchForex()" >
+                <nb-icon icon="refresh-outline" (click)="refresh('forex')"
+                         [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+
+              </nb-card-header>
+
+              <br>
+              <nb-list class="user-activity-list">
+                <nb-list-item *ngFor="let item of listForex">
+
+                  <div class="visited-date" (click)="openForex(item, 'forex')">
+                    {{ item.code }}
+                  </div>
+                  <div class="visited-date" >
+                    {{ item.name }}
+                  </div>
+
+                </nb-list-item>
+              </nb-list>
+
+              <nb-card-footer>
+                <div class="row">
+                  <div class="column2">
+                    <button nbButton outline status="primary" (click)="PaginateForex('left')"> back </button>
+                  </div>
+                  <div class="column2">
+                    <button style="float: right"
+                            nbButton outline status="primary" (click)="PaginateForex('right')"> more </button>
+                  </div>
+
+                </div>
+              </nb-card-footer>
+
+            </nb-card>
+
+
           </div>
 
         </nb-tab>
@@ -186,10 +226,6 @@
       </nb-tabset>
     </nb-card>
   </div>
-
-
-
-
 
 </div>
 

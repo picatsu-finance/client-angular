@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'ngx-form-elements',
+  selector: 'ngx-forex-component',
   template: `
     <router-outlet></router-outlet>
   `,

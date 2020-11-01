@@ -2,26 +2,15 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { CryptoComponent } from './crypto.component';
-import { GridComponent } from './grid/grid.component';
-import { IconsComponent } from './icons/icons.component';
-import { TypographyComponent } from './typography/typography.component';
-import { SearchComponent } from './search-fields/search-fields.component';
+import { CryptoMenuComponent } from './crypto-menu/crypto-menu.component';
+
 
 const routes: Routes = [{
   path: '',
   component: CryptoComponent,
   children: [ {
-    path: 'grid',
-    component: GridComponent,
-  }, {
-    path: 'icons',
-    component: IconsComponent,
-  }, {
-    path: 'typography',
-    component: TypographyComponent,
-  }, {
-    path: 'search-fields',
-    component: SearchComponent,
+    path: 'crypto-menu',
+    component: CryptoMenuComponent,
   }],
 }];
 

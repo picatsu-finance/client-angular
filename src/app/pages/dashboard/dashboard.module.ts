@@ -7,7 +7,7 @@ import {
   NbUserModule,
   NbIconModule,
   NbSelectModule,
-  NbListModule, NbInputModule, NbSidebarModule
+  NbListModule, NbInputModule, NbSidebarModule,
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -18,6 +18,8 @@ import { HomeDisplayComponent } from './home-display/home-display.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import {FormsModule} from '@angular/forms';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ShowcaseDialogComponent } from './showcase-dialog/showcase-dialog.component';
+import { NgMarqueeModule } from 'ng-marquee';
 
 @NgModule({
   imports: [
@@ -37,11 +39,13 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     LeafletModule,
     FormsModule,
     Ng2SmartTableModule,
-    NbSidebarModule
+    NbSidebarModule,
+    NgMarqueeModule,
   ],
   declarations: [
     DashboardComponent,
     HomeDisplayComponent,
+    ShowcaseDialogComponent,
   ],
   providers: [
   ],

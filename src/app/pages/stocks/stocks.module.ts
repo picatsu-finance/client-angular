@@ -13,14 +13,8 @@ import {
 import { ThemeModule } from '../../@theme/theme.module';
 import { StocksRoutingModule } from './stocks-routing.module';
 import { StocksComponent } from './stocks.component';
-import { Tab1Component, Tab2Component, TabsComponent } from './tabs/tabs.component';
-import { StepperComponent } from './stepper/stepper.component';
-import { ListComponent } from './list/list.component';
-import { InfiniteListComponent } from './infinite-list/infinite-list.component';
-import { NewsPostComponent } from './infinite-list/news-post/news-post.component';
-import { NewsPostPlaceholderComponent } from './infinite-list/news-post-placeholder/news-post-placeholder.component';
-import { AccordionComponent } from './accordion/accordion.component';
-import { NewsService } from './news.service';
+import { StocksMenuComponent } from './stocks-menu/stocks-menu.component';
+
 
 @NgModule({
   imports: [
@@ -39,18 +33,7 @@ import { NewsService } from './news.service';
   ],
   declarations: [
     StocksComponent,
-    TabsComponent,
-    Tab1Component,
-    Tab2Component,
-    StepperComponent,
-    ListComponent,
-    NewsPostPlaceholderComponent,
-    InfiniteListComponent,
-    NewsPostComponent,
-    AccordionComponent,
-  ],
-  providers: [
-    NewsService,
+    StocksMenuComponent,
   ],
 })
 export class StocksModule { }

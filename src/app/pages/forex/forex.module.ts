@@ -14,10 +14,8 @@ import {
 import { ThemeModule } from '../../@theme/theme.module';
 import { ForexRoutingModule } from './forex-routing.module';
 import { ForexComponent } from './forex.component';
-import { FormInputsComponent } from './form-inputs/form-inputs.component';
-import { FormLayoutsComponent } from './form-layouts/form-layouts.component';
-import { DatepickerComponent } from './datepicker/datepicker.component';
-import { ButtonsComponent } from './buttons/buttons.component';
+import { ForexMenuComponent } from './forex-menu/forex-menu.component';
+
 import { FormsModule as ngFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -38,10 +36,7 @@ import { FormsModule as ngFormsModule } from '@angular/forms';
   ],
   declarations: [
     ForexComponent,
-    ButtonsComponent,
-    FormInputsComponent,
-    FormLayoutsComponent,
-    DatepickerComponent,
+    ForexMenuComponent,
   ],
 })
 export class ForexModule { }

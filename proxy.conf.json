@@ -17,5 +17,11 @@
     "pathRewrite": {
       "^/login": ""
     }
+  },
+  "/api/quote/*": {
+    "target": "https://api.nasdaq.com",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
   }
 }

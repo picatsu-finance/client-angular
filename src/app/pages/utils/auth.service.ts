@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {LoginService, Token} from './login.service';
@@ -27,7 +26,6 @@ export class AuthService {
   constructor(
     private router: Router,
     private loginService: LoginService,
-    private toaster: ToastrService,
     private cookie: CookieService,
   ) {
     this.cookie.get('currentUser_finance');
@@ -55,7 +53,7 @@ export class AuthService {
           this.loggedIn.next(true);
           this.isLoading.next(false);
           this.router.navigateByUrl('/home');
-          this.toaster.success('Connexion reussie', '', {timeOut: 800});
+          // this.toaster.success('Connexion reussie', '', {timeOut: 800});
         } else {
           this.loggedIn.next(false);
           // this.router.navigateByUrl("/login");

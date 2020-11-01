@@ -1,6 +1,7 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'http://94.239.109.172:9090',
+  apiUrl: 'http://146.59.195.214:9090',
+  indicesApiUrl: 'https://api.nasdaq.com/api/quote',
 };
 

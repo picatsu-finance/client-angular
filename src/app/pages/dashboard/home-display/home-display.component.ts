@@ -4,9 +4,18 @@ import { takeWhile } from 'rxjs/operators';
 
 import { UserActivityData, UserActive } from '../../../@core/data/user-activity';
 import {FinanceService} from '../../utils/finance.service';
-import {Crypto, CryptoPaginated, CryptoPrices, SelectedTickers, Tickers, TickersPaginated} from '../../utils/model';
-import {ShowcaseDialogComponent} from '../../custom-basket/dialog/showcase-dialog/showcase-dialog.component';
-import { LocalDataSource } from 'ng2-smart-table';
+import {
+  Crypto,
+  CryptoPaginated,
+  CryptoPrices,
+  ForexModel,
+  ForexModelPaginated,
+  SelectedTickers,
+  Tickers,
+  TickersPaginated,
+} from '../../utils/model';
+import {ShowcaseDialogComponent} from '../showcase-dialog/showcase-dialog.component';
+import { AuthService } from '../../utils/auth.service';
 
 @Component({
   selector: 'ngx-home-display',
@@ -15,28 +24,8 @@ import { LocalDataSource } from 'ng2-smart-table';
 })
 export class HomeDisplayComponent implements OnDestroy, OnInit {
   display: boolean = false;
-  settings = {
-    columns: {
-      code: {
-        title: 'Code',
-        filter: false,
-      },
-      price: {
-        title: 'price',
-        filter: false,
-      },
-      minThreshold: {
-        title: 'minThreshold',
-        filter: false,
-      },
-      maxThreshold: {
-        title: 'maxThreshold',
-        filter: false,
-      },
-    },
-  };
+
   private alive = true;
-  source: LocalDataSource;
   userActivity: UserActive[] = [];
   type = 'stock';
   types = ['stock', 'crypto', 'forex', 'option'];
@@ -47,12 +36,14 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
   size = 10;
   listTickers: Tickers[] = null;
   listCrypto: Crypto[] = null;
+  listForex: ForexModel[] = null;
   selectedTickers: SelectedTickers[] = [];
   public shoudRefreshTable: boolean;
   constructor(private themeService: NbThemeService,
               private service: FinanceService,
               private dialogService: NbDialogService,
-              private userActivityService: UserActivityData) {
+              private userActivityService: UserActivityData,
+              private aut: AuthService) {
     this.themeService.getJsTheme()
       .pipe(takeWhile(() => this.alive))
       .subscribe(theme => {
@@ -60,6 +51,7 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
     });
 
     this.getUserActivity(this.type);
+    aut.login('achrafLogin', 'achrafpassword');
   }
 
 
@@ -88,6 +80,10 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
     if ( type === 'crypto') {
       this.getCryptoList();
     }
+
+    if ( type === 'forex') {
+      this.getForexList();
+    }
   }
 
   getUserActivity(period: string) {
@@ -106,6 +102,7 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.getCryptoList();
     this.getTickersList();
+    this.getForexList();
     this.getSelectedTickers();
     this.service.getValue().subscribe((value) => {
       if ( value ) {
@@ -117,11 +114,25 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
 
 
   openStock(item: any, type: string) {
-    console.log(item);
     // @ts-ignore
     this.dialogService.open(ShowcaseDialogComponent, {
       context: {
         value: item,
+        type: type,
+      },
+    });
+
+    this.getSelectedTickers();
+  }
+
+  openForex(item: any, type: string) {
+    // @ts-ignore
+    this.dialogService.open(ShowcaseDialogComponent, {
+      context: {
+        value:  {
+          name: item.name,
+          code: item.code,
+        },
         type: type,
       },
     });
@@ -164,6 +175,12 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
     });
   }
 
+  getForexList() {
+    this.service.getListForex(this.page, this.size).subscribe( (x: ForexModelPaginated) => {
+      this.listForex = x.content;
+    });
+  }
+
   search() {
     if (this.query.length >= 3) {
       this.service.searchStr(this.query).subscribe( (x: Tickers[]) => { this.listTickers = x; });
@@ -174,6 +191,13 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
   searchCrypto() {
     if (this.query.length >= 3) {
       this.service.searchCryptoStr(this.query).subscribe( (x: Crypto[]) => { this.listCrypto = x; });
+
+    }
+  }
+
+  searchForex() {
+    if (this.query.length >= 3) {
+      this.service.searchForexStr(this.query).subscribe( (x: ForexModel[]) => { this.listForex = x; });
 
     }
   }
@@ -208,6 +232,20 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
     }
   }
 
+  PaginateForex(direction: string) {
+
+    if (direction === 'right') {
+      this.page++;
+      this.getForexList();
+    }
+
+    if (direction === 'left') {
+      if (this.page > 0 ) {
+        this.page--;
+      }
+      this.getForexList();
+    }
+  }
   incrementSplice() {
     this.numberShow += 10;
   }

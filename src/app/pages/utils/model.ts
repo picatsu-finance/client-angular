@@ -1,3 +1,24 @@
+export interface GlobalIndicesData {
+  symbol: string;
+  companyName: string;
+  lastSalePrice: number;
+  previousClose: number;
+  netChange: number;
+  percentageChange: string;
+  volume: string;
+  deltaIndicator: string;
+  timeStamp: string;
+  indexCharts: [{
+    z: {
+      symbol: string;
+      lastSalePrice: number;
+      dateTime: Date;
+    },
+    x: number;
+    y: number;
+  }];
+}
+
 
 export interface CryptoPrices {
   quoteResponse: {
@@ -55,6 +76,25 @@ export interface  Crypto {
 export interface Tickers {
   name: string;
   code: string;
+}
+
+export interface ForexModel {
+  code: string;
+  name: string;
+}
+
+export interface ForexModelPaginated {
+  content: ForexModel[];
+  pageable: Pageable;
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  sort: Sort;
+  size: number;
+  number: number;
+  numberOfElements: number;
+  first: boolean;
+  empty: boolean;
 }
 
 

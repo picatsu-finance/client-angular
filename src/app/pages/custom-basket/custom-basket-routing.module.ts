@@ -1,35 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CustomBasketComponent } from './custom-basket.component';
-import { DialogComponent } from './dialog/dialog.component';
-import { WindowComponent } from './window/window.component';
-import { PopoversComponent } from './popovers/popovers.component';
-import { ToastrComponent } from './toastr/toastr.component';
-import { TooltipComponent } from './tooltip/tooltip.component';
+import { CustomBasketMenuComponent } from './custom-basket-menu/custom-basket-menu.component';
+
 
 const routes: Routes = [{
   path: '',
   component: CustomBasketComponent,
   children: [
     {
-      path: 'dialog',
-      component: DialogComponent,
-    },
-    {
-      path: 'window',
-      component: WindowComponent,
-    },
-    {
-      path: 'popover',
-      component: PopoversComponent,
-    },
-    {
-      path: 'tooltip',
-      component: TooltipComponent,
-    },
-    {
-      path: 'toastr',
-      component: ToastrComponent,
+      path: 'custom-menu',
+      component: CustomBasketMenuComponent,
     },
   ],
 }];
