@@ -1,7 +1,7 @@
 
 
 
- <div class="steppers-container row" >
+<div class="steppers-container row" >
 
   <div class="col-md-12 col-lg-6 col-xxxl-6"  >
 
@@ -17,22 +17,22 @@
         <nb-icon icon="refresh-outline" (click)="getSelectedTickers()" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
       </nb-card-header>
       <nb-card-body>
-        <div>
+
           <table class="customTable">
+
             <tr  >
               <th>Code</th>
               <th>minThreshold</th>
               <th>Price Now </th>
               <th>maxThreshold</th>
               <th>Delete</th>
-
             </tr>
+
             <tr *ngFor="let item of selectedTickers">
 
               <td class="visited-percentages" >
                 {{ item.code }}
               </td>
-
 
               <td class="visited-percentages">
 
@@ -41,7 +41,6 @@
                   {{ item.minThreshold }} €
                 </div>
               </td>
-
 
               <td class="visited-percentages" >
 
@@ -68,27 +67,20 @@
             </tr>
           </table>
 
-        </div>
-
 
       </nb-card-body>
 
-
     </nb-card>
-
-
-
   </div>
 
-  <div class="col-md-12 col-lg-6 col-xxxl-6">
 
+<div class="col-md-12 col-lg-6 col-xxxl-6">
 
-    <nb-card>
+    <nb-card >
       <nb-tabset fullWidth  >
         <nb-tab tabTitle="Stock">
 
-          <div class="summary-container">
-            <nb-card size="medium">
+            <nb-card size="medium" >
               <nb-card-header>
                 <span>Available Stocks</span>
                 <input type="text" nbInput   shape="semi-round"  [(ngModel)]="query" (ngModelChange)="search()" >
@@ -97,13 +89,12 @@
               </nb-card-header>
 
               <br>
-              <nb-list class="user-activity-list">
-                <nb-list-item *ngFor="let item of listTickers">
+              <nb-list  >
+                <nb-list-item *ngFor="let item of listTickers"    >
 
                   <div class="visited-date" (click)="openStock(item, 'stock')">
                     {{ item.code }}
                   </div>
-
                   <div class="visited-date">
                     {{ item.name }}
                   </div>
@@ -125,9 +116,6 @@
               </nb-card-footer>
 
             </nb-card>
-
-
-          </div>
 
         </nb-tab>
 

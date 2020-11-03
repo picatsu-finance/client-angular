@@ -20,7 +20,8 @@ export class FinanceService {
   }
 
   getGlobalIndicesData() {
-    return this.http.get(environment.indicesApiUrl + '/indices?chartFor=COMP&chartFor=NYA&chartFor=SPX&chartFor=RUT&chartFor=NDX&symbol=COMP&symbol=NYA&symbol=SPX&symbol=RUT&symbol=NDX',
+    return this.http.get(environment.indicesApiUrl + '/indices?chartFor=COMP&chartFor=NYA&chartFor=SPX&chartFor=RUT' +
+      '&chartFor=NDX&symbol=COMP&symbol=NYA&symbol=SPX&symbol=RUT&symbol=NDX&symbol=CAC40',
       this.optionRequete );
   }
 
