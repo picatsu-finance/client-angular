@@ -24,9 +24,7 @@ import { AuthService } from '../../utils/auth.service';
 })
 export class HomeDisplayComponent implements OnDestroy, OnInit {
   display: boolean = false;
-
   private alive = true;
-  userActivity: UserActive[] = [];
   type = 'stock';
   types = ['stock', 'crypto', 'forex', 'option'];
   currentTheme: string;
@@ -41,21 +39,34 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
   public shoudRefreshTable: boolean;
   constructor(private themeService: NbThemeService,
               private service: FinanceService,
-              private dialogService: NbDialogService,
-              private userActivityService: UserActivityData,
-              private aut: AuthService) {
+              private dialogService: NbDialogService) {
+
     this.themeService.getJsTheme()
       .pipe(takeWhile(() => this.alive))
       .subscribe(theme => {
         this.currentTheme = theme.name;
     });
-
-    this.getUserActivity(this.type);
-    aut.login('achrafLogin', 'achrafpassword');
   }
 
 
-  getSelectedTickers() {
+  ngOnDestroy() {
+    this.alive = false;
+  }
+
+  ngOnInit(): void {
+    this.getCryptoList();
+    this.getTickersList();
+    this.getForexList();
+    this.retrieveSavedValues();
+    this.service.getValue().subscribe((value) => {
+      if ( value ) {
+        this.retrieveSavedValues();
+      }
+      this.shoudRefreshTable = value;
+    });
+  }
+
+  retrieveSavedValues() {
     this.selectedTickers = this.service.getSelectedTickers();
     this.selectedTickers.forEach(x => {
       if ( x.type === 'stock') {
@@ -69,49 +80,29 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
           x.price = value.quoteResponse.result[0].regularMarketPrice;
         });
       }
+
+      if ( x.type === 'forex') {
+        this.service.loadSingleForexPrice(x.code, 'USD').subscribe((value: any) => {
+          x.price = value.exchangeRate;
+        });
+      }
     });
   }
+
   refresh(type: string) {
     this.query = '';
     if ( type === 'stock') {
-
       this.getTickersList();
     }
     if ( type === 'crypto') {
       this.getCryptoList();
     }
-
     if ( type === 'forex') {
       this.getForexList();
     }
   }
 
-  getUserActivity(period: string) {
-    this.userActivityService.getUserActivityData(period)
-      .pipe(takeWhile(() => this.alive))
-      .subscribe(userActivityData => {
-        this.userActivity = userActivityData;
-
-      });
-  }
-
-  ngOnDestroy() {
-    this.alive = false;
-  }
-
-  ngOnInit(): void {
-    this.getCryptoList();
-    this.getTickersList();
-    this.getForexList();
-    this.getSelectedTickers();
-    this.service.getValue().subscribe((value) => {
-      if ( value ) {
-        this.getSelectedTickers();
-      }
-      this.shoudRefreshTable = value;
-    });
-  }
-
+  ////////////////////// OPEN POP UP 
 
   openStock(item: any, type: string) {
     // @ts-ignore
@@ -122,22 +113,7 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
       },
     });
 
-    this.getSelectedTickers();
-  }
-
-  openForex(item: any, type: string) {
-    // @ts-ignore
-    this.dialogService.open(ShowcaseDialogComponent, {
-      context: {
-        value:  {
-          name: item.name,
-          code: item.code,
-        },
-        type: type,
-      },
-    });
-
-    this.getSelectedTickers();
+    this.retrieveSavedValues();
   }
 
   openCrypto(item: any, type: string) {
@@ -153,15 +129,27 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
       },
     });
 
-    this.getSelectedTickers();
+    this.retrieveSavedValues();
   }
-  removeItem(item: SelectedTickers) {
-    const index: number = this.selectedTickers.indexOf(item);
-    if (index !== -1) {
-      this.selectedTickers.splice(index, 1);
-    }
-    this.service.setSelectedTickersAndValidate(this.selectedTickers);
+
+  openForex(item: any, type: string) {
+    // @ts-ignore
+    console.log(item + type);
+    this.dialogService.open(ShowcaseDialogComponent, {
+      context: {
+        value:  {
+          name: item.name,
+          code: item.code,
+        },
+        type: type,
+      },
+    });
+
+    this.retrieveSavedValues();
   }
+
+
+  ////////////////////// GET ITEMS List
 
   getTickersList() {
     this.service.getListTickers(this.page, this.size).subscribe( (x: TickersPaginated) => {
@@ -180,6 +168,8 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
       this.listForex = x.content;
     });
   }
+
+  ////////////////////// SEARCH ITEMS 
 
   search() {
     if (this.query.length >= 3) {
@@ -201,6 +191,8 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
 
     }
   }
+
+  ////////////////////// PAGINATE ITEMS 
 
   Paginate(direction: string) {
 
@@ -249,6 +241,9 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
   incrementSplice() {
     this.numberShow += 10;
   }
+
+  ////////////////////// OTHERS
+
   loadPrice(item: Tickers) {
     this.service.loadSingleStockPrice(item.code).subscribe( (x: number) => {
       this.selectedTickers.forEach( value => {
@@ -260,5 +255,18 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
   }
   setSelectedTickersAndValidate() {
     this.service.setSelectedTickersAndValidate(this.selectedTickers);
+  }
+
+  
+  removeItem(item: SelectedTickers) {
+    const index: number = this.selectedTickers.indexOf(item);
+    if (index !== -1) {
+      this.selectedTickers.splice(index, 1);
+    }
+    this.service.setSelectedTickersAndValidate(this.selectedTickers);
+  }
+
+  getGain(item: SelectedTickers) {
+    return ((item.price * item.quantity)  -   (item.buyPrice * item.quantity) ).toFixed(3);
   }
 }

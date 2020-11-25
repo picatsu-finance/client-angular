@@ -15,10 +15,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
 
-   this.initGlobalIndices();
-    setInterval(() => {
+   // this.initGlobalIndices();
+  /*  setInterval(() => {
       this.initGlobalIndices();
-    }, 2000);
+    }, 10000); */
   }
 
   initGlobalIndices() {

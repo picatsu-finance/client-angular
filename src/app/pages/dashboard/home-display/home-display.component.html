@@ -3,18 +3,15 @@
 
 <div class="steppers-container row" >
 
-  <div class="col-md-12 col-lg-6 col-xxxl-6"  >
+  <div class="col-md-12 col-lg-6 col-xxxl-8" style="width: 63%;"  >
 
 
     <nb-card  >
       <nb-card-header>
         <span>My Tracked Values </span>
         <div class="caption">Currency in EUR</div>
-        <nb-select [selected]="type" (selectedChange)="getUserActivity($event); type = $event"
-                   style="float: right">
-          <nb-option *ngFor="let t of types" [value]="t">{{ t }}</nb-option>
-        </nb-select>
-        <nb-icon icon="refresh-outline" (click)="getSelectedTickers()" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+        
+        <nb-icon icon="refresh-outline" (click)="retrieveSavedValues()" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
       </nb-card-header>
       <nb-card-body>
 
@@ -22,9 +19,12 @@
 
             <tr  >
               <th>Code</th>
-              <th>minThreshold</th>
-              <th>Price Now </th>
-              <th>maxThreshold</th>
+              <th>Buyed </th>
+              <th>Threshold € </th>
+              <th>Actual  </th>
+              <th>Gain €</th>
+              <th>Quantity</th>
+              <th>Type</th>
               <th>Delete</th>
             </tr>
 
@@ -34,25 +34,50 @@
                 {{ item.code }}
               </td>
 
+              <td class="visited-percentages" >
+                {{ item.buyPrice }}
+              </td>
+
               <td class="visited-percentages">
+
+                
+                <div class="delta value" [class.up]="true" [class.down]="false" style="float:left;">
+                  <nb-icon [icon]="'arrow-up'" pack="eva"></nb-icon>
+                  {{ item.maxThreshold }}  &nbsp;
+                </div>
 
                 <div class="delta value" [class.up]="false" [class.down]="true">
                   <nb-icon [icon]="'arrow-down'" pack="eva"></nb-icon>
-                  {{ item.minThreshold }} €
+                  {{ item.minThreshold }} 
+                   
                 </div>
               </td>
 
               <td class="visited-percentages" >
 
-                <div class="value">{{ item.price }} €</div>
+                <div class="delta value" [class.up]="false" [class.down]="true" *ngIf="item.buyPrice > item.price">
+                  <nb-icon [icon]="'arrow-down'" pack="eva"></nb-icon>
+                  {{ item.price }} 
+                   
+                </div>
+                <div class="delta value" [class.up]="true" [class.down]="false" *ngIf="item.buyPrice < item.price" >
+                  <nb-icon [icon]="'arrow-up'" pack="eva"></nb-icon>
+                  {{ item.price }}  
+                </div>
+               
               </td>
 
               <td class="visited-percentages">
+                {{ getGain(item)  }}  
+               
+              </td>
 
-                <div class="delta value" [class.up]="true" [class.down]="false">
-                  <nb-icon [icon]="'arrow-up'" pack="eva"></nb-icon>
-                  {{ item.maxThreshold }} €
-                </div>
+              <td class="visited-percentages" >
+                {{ item.quantity }}
+              </td>
+
+              <td class="visited-percentages" >
+                {{ item.type }}
               </td>
 
               <td class="visited-percentages">
@@ -74,7 +99,7 @@
   </div>
 
 
-<div class="col-md-12 col-lg-6 col-xxxl-6">
+<div class="col-md-12 col-lg-6 col-xxxl-4" style="width: 35%;">
 
     <nb-card >
       <nb-tabset fullWidth  >

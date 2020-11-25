@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {SelectedTickers} from './model';
+import {CryptoPrices, SelectedTickers} from './model';
 import {BehaviorSubject, Observable} from 'rxjs';
+import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -15,7 +16,8 @@ export class FinanceService {
   };
   private shouldRefreshTrackedValues: BehaviorSubject<boolean>;
 
-  constructor(private  http: HttpClient) {
+  constructor(private  http: HttpClient,
+              private aut: AuthService) {
     this.shouldRefreshTrackedValues = new BehaviorSubject<boolean>(false);
   }
 
@@ -51,8 +53,11 @@ export class FinanceService {
   loadSingleStockPrice(code: string) {
     return this.http.get( environment.apiUrl + '/stock/api/v1/yahoo/stock/' + code, this.optionRequete );
   }
-  loadSingleCryptoPrice(code: string, forex: string) {
-    return this.http.get( environment.apiUrl + '/crypto/api/v1/crypto/price/' + code + '/' + forex, this.optionRequete );
+  loadSingleCryptoPrice(code: string, crypto: string) {
+    return this.http.get( environment.apiUrl + '/crypto/api/v1/crypto/price/' + code + '/' + crypto, this.optionRequete );
+  }
+  loadSingleForexPrice(from: string, to: string) {
+    return this.http.get( environment.apiUrl + '/forex/api/v1/forex/' + from + '/' + to, this.optionRequete );
   }
 
   // http://94.239.109.172:8003/api/v1/tickers/search-tickers/AAU
@@ -69,10 +74,37 @@ export class FinanceService {
   }
 
   getSelectedTickers() {
-    return JSON.parse(localStorage.getItem('selectedItems' )) as SelectedTickers[];
+    if(this.aut.isLoggedIn && this.aut.currentUser) {
+      return null // TODO HTTP CALL CURRENT USER HERE 
+    } else {
+      return JSON.parse(localStorage.getItem('selectedItems' )) as SelectedTickers[];
+    }
+    
   }
 
   setSelectedTickersAndValidate(selectedTickers: SelectedTickers[]) {
-    localStorage.setItem('selectedItems', JSON.stringify(selectedTickers));
+    if(this.aut.isLoggedIn && this.aut.currentUser) {
+      return null // TODO HTTP CALL CURRENT USER HERE 
+    } else {
+      localStorage.setItem('selectedItems', JSON.stringify(selectedTickers));
+    }
+  }
+
+
+  retrieveSavedValues() {
+    
+    this.getSelectedTickers().forEach(x => {
+      if ( x.type === 'stock') {
+        this.loadSingleStockPrice(x.code).subscribe((value: number) => {
+          x.price = value;
+        });
+      }
+
+      if ( x.type === 'crypto') {
+        this.loadSingleCryptoPrice(x.code, 'USD').subscribe((value: CryptoPrices) => {
+          x.price = value.quoteResponse.result[0].regularMarketPrice;
+        });
+      }
+    });
   }
 }

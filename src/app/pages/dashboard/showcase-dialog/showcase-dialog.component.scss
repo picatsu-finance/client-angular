@@ -3,7 +3,7 @@
 @include nb-install-component() {
   nb-card {
     max-width: 600px;
-    max-height: 500px;
+    max-height: 700px;
   }
 
   nb-card-header {
@@ -56,10 +56,9 @@
     }
   }
 
-
   /* Clear floats after the columns */
   .row2 {
-    content: "";
+    content: '';
     display: table;
     clear: both;
     width: 100%;

@@ -55,12 +55,15 @@ export interface CryptoPrices {
 
 
 export interface SelectedTickers {
+  userId: any;
   name: string;
   code: string;
   maxThreshold: number;
   minThreshold: number;
+  buyPrice: number;
   price: number;
   type: string;
+  quantity: number;
 }
 
 export interface  Crypto {
@@ -79,8 +82,8 @@ export interface Tickers {
 }
 
 export interface ForexModel {
-  code: string;
   name: string;
+  code: string;
 }
 
 export interface ForexModelPaginated {

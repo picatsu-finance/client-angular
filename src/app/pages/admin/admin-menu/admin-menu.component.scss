@@ -1,0 +1,31 @@
+
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+  nb-card {
+    transform: translate3d(0, 0, 0);
+  }
+
+  ::ng-deep .customTable {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 15px 25px;
+  }
+}
+
+.column {
+
+  width: 30%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  padding-left: 5%;
+  content: "";
+  display: table;
+  clear: both;
+}
+
+td {
+  cursor: pointer;
+}

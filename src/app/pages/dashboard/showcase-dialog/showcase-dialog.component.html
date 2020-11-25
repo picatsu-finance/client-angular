@@ -5,46 +5,61 @@
 
               <nb-list class="user-activity-list">
 
-                  <nb-list-item  >
+
+                  <nb-list-item>
                   <div class="visited-pages-count">
                     <div class="caption">Code</div>
                     {{ blancSelectedTickers.code}}
                   </div>
-
-
                 </nb-list-item>
-                <nb-list-item  >
+
+
+                <nb-list-item>
                   <div class="visited-pages-count">
                     <div class="caption">Price</div>
                     {{blancSelectedTickers.price}}
                   </div>
-
                 </nb-list-item>
-                <nb-list-item  >
+
+                <nb-list-item>
+                  <div class="visited-pages-count">
+                    <div class="caption">Quantity</div>
+                    <br>
+                    <input type="number" nbInput fullWidth value="{{quantity}}"
+                           [(ngModel)]="quantity">
+                  </div>
+                </nb-list-item>
+
+                <nb-list-item>
+                  <div class="visited-pages-count">
+                    <div class="caption">Buy Price</div>
+                    <br>
+                    <input type="number" nbInput fullWidth value="{{blancSelectedTickers.buyPrice}}"
+                           [(ngModel)]="blancSelectedTickers.buyPrice">
+                  </div>
+                </nb-list-item>
+
+                <nb-list-item>
                   <div class="visited-pages-count">
                     <div class="caption">MinThreshold</div>
                     <br>
                     <input type="number" nbInput fullWidth value="{{blancSelectedTickers.minThreshold}}"
                            [(ngModel)]="blancSelectedTickers.minThreshold">
                   </div>
-
-
                 </nb-list-item>
-                <nb-list-item  >
+
+                <nb-list-item>
                   <div class="visited-pages-count">
                     <div class="caption">MaxThreshold</div>
                     <br>
                     <input type="number" nbInput fullWidth value="{{blancSelectedTickers.maxThreshold}}"
                            [(ngModel)]="blancSelectedTickers.maxThreshold">
                   </div>
-
-
-
                 </nb-list-item>
-              </nb-list>
 
 
 
+          </nb-list>
 
   </nb-card-body>
   <nb-card-footer>

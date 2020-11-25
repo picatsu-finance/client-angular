@@ -1,0 +1,203 @@
+
+<nb-tabset fullWidth  >
+  <nb-tab tabTitle="Stocks">
+    <nb-card >
+      <nb-card-header>Stocks : Add Or Update</nb-card-header>
+      <nb-card-body  >
+        <div class="row" >
+          <div class="column">
+            <input type="text" nbInput fullWidth placeholder="Code"
+                   [(ngModel)]="activeTicker.code"
+                   value="{{activeTicker.code}}"></div>
+          <div class="column" style="width: 10%;"></div>
+          <div class="column">
+            <input type="text"
+                   [(ngModel)]="activeTicker.name"
+                   value="{{activeTicker.name}}"
+                    nbInput fullWidth placeholder="Name"></div>
+
+          <div class="column" style="width: 5%;"></div>
+          <button type="submit" nbButton status="primary" (click)="submitTicker()" >Submit</button>
+        </div>
+
+
+      </nb-card-body>
+    </nb-card>
+    <nb-card>
+      <nb-card-header>
+        Stock/actions List
+      </nb-card-header>
+
+      <nb-card-body>
+        <table class="customTable" >
+          <tr >
+            <th>Code</th>
+            <th>Name</th>
+            <th>Delete</th>
+          </tr>
+
+          <tr *ngFor="let item of allTickers.content">
+            <td class="visited-percentages" (click)="setActiveStock(item)" >
+              {{ item.name }}
+            </td>
+            <td class="visited-percentages" (click)="setActiveStock(item)">
+              {{ item.code }}
+            </td>
+            <td>
+              <div class="delta value"  (click)="onDeleteConfirm(item)">
+                <nb-icon [icon]="'trash-2-outline'" pack="eva" style="color: #ca3131"></nb-icon>
+              </div>
+            </td>
+
+          </tr>
+        </table>
+        <br>
+
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="row">
+          <div style="width: 50%; float: left; padding-left: 5%">
+            <button nbButton outline status="primary" (click)="Paginate('left')"> back </button>
+          </div>
+          <div style="width: 40%; float: left;">
+            <button style="float: right"  nbButton outline status="primary" (click)="Paginate('right')"> more </button>
+          </div>
+
+        </div>
+      </nb-card-footer>
+    </nb-card>
+
+  </nb-tab>
+
+
+
+  <nb-tab tabTitle="Crypto">
+    <nb-card>
+      <nb-card-header>
+        Crypto List
+      </nb-card-header>
+
+      <nb-card-body>
+
+        <table class="customTable" >
+
+          <tr >
+            <th>Code</th>
+            <th>Name</th>
+            <th>Delete</th>
+
+          </tr>
+
+          <tr *ngFor="let item of allCrypto.content">
+
+            <td class="visited-percentages"  (click)="setActiveCrypto(item)"  >
+              {{ item.name }}
+            </td>
+
+            <td class="visited-percentages" (click)="setActiveCrypto(item)">
+              {{ item.symbol }}
+
+            </td>
+
+
+            <th>
+              <div class="delta value"  (click)="onDeleteConfirm(item)">
+                <nb-icon [icon]="'trash-2-outline'" pack="eva" style="color: #ca3131"></nb-icon>
+              </div>
+            </th>
+
+          </tr>
+        </table>
+        <br>
+
+      </nb-card-body>
+    </nb-card>
+    <nb-card >
+      <nb-card-header>Crypto modification</nb-card-header>
+      <nb-card-body  >
+        <div class="row" >
+          <div class="column"><input type="text" nbInput fullWidth placeholder="Code"></div>
+          <div class="column" style="width: 10%;"></div>
+          <div class="column"><input type="text" nbInput fullWidth placeholder="Name"></div>
+
+          <div class="column" style="width: 5%;"></div>
+          <button type="submit" nbButton status="primary">Submit</button>
+        </div>
+
+
+      </nb-card-body>
+    </nb-card>
+  </nb-tab>
+
+
+  <nb-tab tabTitle="Forex">
+    <nb-card>
+      <nb-card-header>
+        Crypto List
+      </nb-card-header>
+
+      <nb-card-body>
+
+        <table class="customTable" >
+
+          <tr >
+            <th>Code</th>
+            <th>Name</th>
+            <th>Delete</th>
+
+          </tr>
+
+          <tr *ngFor="let item of allTickers.content">
+
+            <td class="visited-percentages" >
+              {{ item.name }}
+            </td>
+
+            <td class="visited-percentages">
+              {{ item.code }}
+
+            </td>
+
+
+            <th>
+              <div class="delta value"  (click)="onDeleteConfirm(item)">
+                <nb-icon [icon]="'trash-2-outline'" pack="eva" style="color: #ca3131"></nb-icon>
+              </div>
+            </th>
+
+          </tr>
+        </table>
+        <br>
+
+      </nb-card-body>
+    </nb-card>
+    <nb-card >
+      <nb-card-header>Crypto modification</nb-card-header>
+      <nb-card-body  >
+        <div class="row" >
+          <div class="column"><input type="text" nbInput fullWidth placeholder="Code"></div>
+          <div class="column" style="width: 10%;"></div>
+          <div class="column"><input type="text" nbInput fullWidth placeholder="Name"></div>
+
+          <div class="column" style="width: 5%;"></div>
+          <button type="submit" nbButton status="primary">Submit</button>
+        </div>
+
+
+      </nb-card-body>
+    </nb-card>
+  </nb-tab>
+</nb-tabset>
+
+
+
+
+
+
+
+
+
+
+
+
+
