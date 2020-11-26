@@ -64,6 +64,7 @@ export interface SelectedTickers {
   price: number;
   type: string;
   quantity: number;
+  description: string;
 }
 
 export interface  Crypto {
@@ -144,4 +145,27 @@ export interface CryptoPaginated {
   numberOfElements: number;
   first: boolean;
   empty: boolean;
+}
+
+
+export interface User {
+  rememberMe: any;
+  password: string;
+  email: string;
+  token?: string;
+  id?: string;
+  username?: string;
+  type?: string;
+  roles: string[];
+}
+
+
+export interface Token {
+  access_token: string;
+  expires_in: number;
+  refresh_expires_in: number;
+  refresh_token: string;
+  token_type: string;
+  session_state: string;
+
 }

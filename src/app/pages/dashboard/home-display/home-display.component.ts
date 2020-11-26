@@ -46,6 +46,10 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
       .subscribe(theme => {
         this.currentTheme = theme.name;
     });
+
+    setInterval(() => {
+      this.retrieveSavedValues();
+    }, 10000);
   }
 
 
@@ -111,6 +115,7 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
         value: item,
         type: type,
       },
+      
     });
 
     this.retrieveSavedValues();

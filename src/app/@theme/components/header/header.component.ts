@@ -5,6 +5,7 @@ import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { AuthenticationService } from '../../../pages/auth/_helpers/authentication.service';
 
 @Component({
   selector: 'ngx-header',
@@ -45,15 +46,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private themeService: NbThemeService,
               private userService: UserData,
               private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService) {
+              private breakpointService: NbMediaBreakpointsService,
+              private auth: AuthenticationService) {
   }
-
+  getUser() {
+    if ( this.auth.currentUserValue  ) {
+      this.user = {name: this.auth.currentUserValue.username, picture: '' };
+    } else {
+      this.user = { name: 'Anonymous', picture: 'assets/images/jack.jpg' };
+    }
+  }
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
 
-    this.userService.getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users: any) => this.user = users.nick);
+    this.getUser();
 
     const { xl } = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()

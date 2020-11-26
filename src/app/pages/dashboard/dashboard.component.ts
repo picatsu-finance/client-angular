@@ -14,11 +14,11 @@ export class DashboardComponent implements OnInit {
   constructor(private service: FinanceService) { }
 
   ngOnInit() {
-
-   // this.initGlobalIndices();
-  /*  setInterval(() => {
+  
+    this.initGlobalIndices();
+   setInterval(() => {
       this.initGlobalIndices();
-    }, 10000); */
+    }, 10000);
   }
 
   initGlobalIndices() {

@@ -22,7 +22,7 @@ export class FinanceService {
   }
 
   getGlobalIndicesData() {
-    return this.http.get(environment.indicesApiUrl + '/indices?chartFor=COMP&chartFor=NYA&chartFor=SPX&chartFor=RUT' +
+    return this.http.get(environment.apiUrl + '/indice/api/quote/indices?chartFor=COMP&chartFor=NYA&chartFor=SPX&chartFor=RUT' +
       '&chartFor=NDX&symbol=COMP&symbol=NYA&symbol=SPX&symbol=RUT&symbol=NDX&symbol=CAC40',
       this.optionRequete );
   }
@@ -75,24 +75,34 @@ export class FinanceService {
 
   getSelectedTickers() {
     if(this.aut.isLoggedIn && this.aut.currentUser) {
-      return null // TODO HTTP CALL CURRENT USER HERE 
+      return null;// TODO HTTP CALL CURRENT USER HERE
     } else {
       return JSON.parse(localStorage.getItem('selectedItems' )) as SelectedTickers[];
     }
-    
+
   }
 
   setSelectedTickersAndValidate(selectedTickers: SelectedTickers[]) {
     if(this.aut.isLoggedIn && this.aut.currentUser) {
-      return null // TODO HTTP CALL CURRENT USER HERE 
+      return null;// TODO HTTP CALL CURRENT USER HERE
     } else {
       localStorage.setItem('selectedItems', JSON.stringify(selectedTickers));
     }
   }
 
+  getMyTickers(userId: string){
+    return this.http.get( environment.apiUrl + '/custom/api/v1/custom/selected/' + userId, this.optionRequete);
+  }
+
+  postSelectedTicker(selected: SelectedTickers) {
+    return this.http.post( environment.apiUrl + '/custom/api/v1/custom/selected/created', {selected}
+    , this.optionRequete);
+  }
+
+
 
   retrieveSavedValues() {
-    
+
     this.getSelectedTickers().forEach(x => {
       if ( x.type === 'stock') {
         this.loadSingleStockPrice(x.code).subscribe((value: number) => {

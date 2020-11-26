@@ -3,7 +3,7 @@
 
 <div class="steppers-container row" >
 
-  <div class="col-md-12 col-lg-6 col-xxxl-8" style="width: 63%;"  >
+  <div class="col-md-12 col-lg-6 col-xxxl-8"  >
 
 
     <nb-card  >
@@ -30,7 +30,7 @@
 
             <tr *ngFor="let item of selectedTickers">
 
-              <td class="visited-percentages" >
+              <td class="visited-percentages" title="{{item.description}}">
                 {{ item.code }}
               </td>
 
@@ -40,7 +40,6 @@
 
               <td class="visited-percentages">
 
-                
                 <div class="delta value" [class.up]="true" [class.down]="false" style="float:left;">
                   <nb-icon [icon]="'arrow-up'" pack="eva"></nb-icon>
                   {{ item.maxThreshold }}  &nbsp;
@@ -49,8 +48,8 @@
                 <div class="delta value" [class.up]="false" [class.down]="true">
                   <nb-icon [icon]="'arrow-down'" pack="eva"></nb-icon>
                   {{ item.minThreshold }} 
-                   
                 </div>
+
               </td>
 
               <td class="visited-percentages" >
@@ -99,7 +98,7 @@
   </div>
 
 
-<div class="col-md-12 col-lg-6 col-xxxl-4" style="width: 35%;">
+<div class="col-md-12 col-lg-6 col-xxxl-4">
 
     <nb-card >
       <nb-tabset fullWidth  >
@@ -206,7 +205,7 @@
               <nb-list class="user-activity-list">
                 <nb-list-item *ngFor="let item of listForex">
 
-                  <div class="visited-date" (click)="openForex(item, 'forex')">
+                  <div class="visited-date" (click)="openForex(item, 'forex')" >
                     {{ item.code }}
                   </div>
                   <div class="visited-date" >

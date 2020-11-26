@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminMenuComponent } from './admin/admin-menu/admin-menu.component';
+import { AuthguardService } from './auth/_helpers/authguard.service';
 
 const routes: Routes = [{
   path: '',
@@ -12,6 +13,12 @@ const routes: Routes = [{
     {
       path: 'dashboard',
       component: DashboardComponent,
+    },
+    {
+      path: 'admin',
+      canActivate: [AuthguardService],
+      loadChildren: () => import('./admin/admin.module')
+        .then(m => m.AdminModule),
     },
     {
       path: 'admin',

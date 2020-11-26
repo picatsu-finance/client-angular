@@ -8,5 +8,4 @@ export const environment = {
   production: false,
   apiUrl: '/local',
   loginUrl: '/login',
-  indicesApiUrl: '/api/quote',
 };

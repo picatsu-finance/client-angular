@@ -3,6 +3,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 import {FinanceService} from '../../utils/finance.service';
 import {CryptoPrices, SelectedTickers, Tickers} from '../../utils/model';
+import { AuthenticationService } from '../../auth/_helpers/authentication.service';
 
 @Component({
   selector: 'ngx-showcase-dialog',
@@ -18,7 +19,8 @@ export class ShowcaseDialogComponent implements OnInit {
   blancSelectedTickers: SelectedTickers;
 
   constructor(private service: FinanceService,
-              protected ref: NbDialogRef<ShowcaseDialogComponent>) {
+              protected ref: NbDialogRef<ShowcaseDialogComponent>,
+              private auth: AuthenticationService) {
   }
 
   dismiss() {
@@ -29,6 +31,10 @@ export class ShowcaseDialogComponent implements OnInit {
     if (this.selectedTickers === null) {
       this.selectedTickers = [];
     }
+    if ( this.auth.currentUserValue) {
+      this.blancSelectedTickers.userId = this.auth.currentUserValue.id;
+    }
+
     this.blancSelectedTickers.quantity = this.quantity;
     this.selectedTickers.push(... [this.blancSelectedTickers]);
     this.service.setSelectedTickersAndValidate(this.selectedTickers);
@@ -64,6 +70,7 @@ export class ShowcaseDialogComponent implements OnInit {
         price: x,
         type: this.type,
         quantity: this.quantity,
+        description: this.value.name,
       };
     });
   }
@@ -81,6 +88,7 @@ export class ShowcaseDialogComponent implements OnInit {
         price: x.quoteResponse.result[0].regularMarketPrice,
         type: this.type,
         quantity: this.quantity,
+        description: this.value.name,
       };
     });
   }
@@ -98,6 +106,7 @@ export class ShowcaseDialogComponent implements OnInit {
         price: x.exchangeRate,
         type: this.type,
         quantity: this.quantity,
+        description: this.value.name,
       };
     });
   }
