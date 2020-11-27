@@ -100,7 +100,6 @@ export class FinanceService {
   }
 
 
-
   retrieveSavedValues() {
 
     this.getSelectedTickers().forEach(x => {

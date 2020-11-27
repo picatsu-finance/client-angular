@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Token } from './model';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class LoginService {
 
 
@@ -14,7 +14,7 @@ export class LoginService {
 
     this.http
       .get(environment.apiUrl + '/custom/api/v1/custom/auth/login/' + btoa('m6d@hotmail.fr:achraftest'))
-      .subscribe((x: Token) => {
+      .subscribe((x: any) => {
       console.log(x);
       const helper = new JwtHelperService();
       const decodedToken = helper.decodeToken(x.access_token);

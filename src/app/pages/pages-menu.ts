@@ -8,11 +8,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/dashboard',
   },
   {
-    title: 'AdminMenu',
-    icon: 'home-outline',
-    link: '/pages/admin',
-  },
-  {
     title: 'FEATURES',
     group: true,
   },
