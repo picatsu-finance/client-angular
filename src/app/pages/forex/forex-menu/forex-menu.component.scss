@@ -1,3 +1,4 @@
+
 nb-card-body {
   overflow: visible;
   padding-top: 0;
@@ -23,4 +24,113 @@ nb-card-body {
 
 .demo-items {
   flex: 1 0 33%;
+}
+
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+
+  .list-card {
+    nb-card-header {
+      border-bottom: none;
+    }
+
+    nb-card-body {
+      padding: 0;
+    }
+  }
+
+  nb-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    padding-top: nb-theme(card-header-with-select-padding-top);
+    padding-bottom: nb-theme(card-header-with-select-padding-bottom);
+  }
+
+  nb-list {
+    overflow-x: hidden;
+  }
+
+  nb-list-item {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin: 0 -0.25rem;
+  }
+
+  .visited-date,
+  .visited-pages-count,
+  .visited-percentages {
+    flex: 1 0 auto;
+    margin: 0 0.25rem;
+  }
+
+  .value {
+    margin-top: 0.25rem;
+    color: nb-theme(color-success-default);
+  }
+
+  .delta {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    &.down {
+      color: nb-theme(color-danger-default);
+    }
+
+    &.up {
+      color: nb-theme(color-success-default);
+    }
+
+    nb-icon ::ng-deep svg {
+      vertical-align: top;
+    }
+  }
+
+
+  /* Clear floats after the columns */
+  .row2 {
+    content: "";
+    display: table;
+    clear: both;
+    width: 100%;
+  }
+
+  .column2 {
+    float: left;
+    width: 50%;
+  }
+
+}
+::ng-deep .customTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 15px 25px;
+}
+
+
+
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0px grey;
+  border-radius: 2px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #1a1f33;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: black;
 }

@@ -26,7 +26,7 @@ export class LoginComponent extends NbLoginComponent  {
     this.auth.login(this.user.email, this.user.password).subscribe(
       user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
-        console.log('receieved value : ', user);
+        // console.log('receieved value : ', user);
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.auth.currentUserSubject.next(user);
       });

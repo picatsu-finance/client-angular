@@ -10,7 +10,7 @@
       <nb-card-header>
         <span>My Tracked Values </span>
         <div class="caption">Currency in EUR</div>
-        
+
         <nb-icon icon="refresh-outline" (click)="retrieveSavedValues()" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
       </nb-card-header>
       <nb-card-body>
@@ -22,7 +22,7 @@
               <th>Buyed </th>
               <th>Threshold € </th>
               <th>Actual  </th>
-              <th>Gain €</th>
+              <th>Performance €</th>
               <th>Quantity</th>
               <th>Type</th>
               <th>Delete</th>
@@ -47,7 +47,7 @@
 
                 <div class="delta value" [class.up]="false" [class.down]="true">
                   <nb-icon [icon]="'arrow-down'" pack="eva"></nb-icon>
-                  {{ item.minThreshold }} 
+                  {{ item.minThreshold }}
                 </div>
 
               </td>
@@ -56,19 +56,19 @@
 
                 <div class="delta value" [class.up]="false" [class.down]="true" *ngIf="item.buyPrice > item.price">
                   <nb-icon [icon]="'arrow-down'" pack="eva"></nb-icon>
-                  {{ item.price }} 
-                   
+                  {{ item.price }}
+
                 </div>
                 <div class="delta value" [class.up]="true" [class.down]="false" *ngIf="item.buyPrice < item.price" >
                   <nb-icon [icon]="'arrow-up'" pack="eva"></nb-icon>
-                  {{ item.price }}  
+                  {{ item.price }}
                 </div>
-               
+
               </td>
 
               <td class="visited-percentages">
-                {{ getGain(item)  }}  
-               
+                {{ getGain(item)  }}
+
               </td>
 
               <td class="visited-percentages" >
@@ -114,9 +114,9 @@
 
               <br>
               <nb-list  >
-                <nb-list-item *ngFor="let item of listTickers"    >
+                <nb-list-item *ngFor="let item of listTickers" (click)="openStock(item, 'stock')"   >
 
-                  <div class="visited-date" (click)="openStock(item, 'stock')">
+                  <div class="visited-date" >
                     {{ item.code }}
                   </div>
                   <div class="visited-date">

@@ -1,6 +1,6 @@
 
 
-<div>
+<div *ngIf="displayIndicators">
 
   <ng-marquee speed="slow" [stopOnHover]="true"  >
    <h5 [innerHTML]="dataToDisplay" >   </h5>

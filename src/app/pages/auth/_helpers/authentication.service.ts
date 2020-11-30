@@ -22,7 +22,7 @@ export class AuthenticationService{
   }
 
   login(username: string, password: string) {
-    console.log('received user : ', username , password);
+    // console.log('received user : ', username , password);
     return this.http.post<any>(`${environment.apiUrl}/auth/api/v1/auth/login`,
       { username: username, password: password });
 
@@ -31,6 +31,7 @@ export class AuthenticationService{
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
+
     this.currentUserSubject.next(null);
   }
 }

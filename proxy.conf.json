@@ -9,15 +9,6 @@
     }
   },
 
-  "/login/*": {
-    "target": "http://94.239.109.172:8080",
-    "secure": false,
-    "logLevel": "debug",
-    "changeOrigin": true,
-    "pathRewrite": {
-      "^/login": ""
-    }
-  },
   "/api/quote/*": {
     "target": "https://api.nasdaq.com",
     "secure": false,

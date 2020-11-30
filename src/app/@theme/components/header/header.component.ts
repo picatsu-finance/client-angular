@@ -6,6 +6,7 @@ import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { AuthenticationService } from '../../../pages/auth/_helpers/authentication.service';
+import { FinanceService } from '../../../pages/utils/finance.service';
 
 @Component({
   selector: 'ngx-header',
@@ -40,6 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentTheme = 'default';
 
   userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  checked: boolean = true;
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
@@ -47,7 +49,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private userService: UserData,
               private layoutService: LayoutService,
               private breakpointService: NbMediaBreakpointsService,
-              private auth: AuthenticationService) {
+              private financeService: FinanceService,
+              public auth: AuthenticationService) {
+    this.financeService.getIndicatorsValue().subscribe(elem => {
+      this.checked = elem;
+    });
   }
   getUser() {
     if ( this.auth.currentUserValue  ) {
@@ -57,7 +63,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
-    this.currentTheme = this.themeService.currentTheme;
 
     this.getUser();
 
@@ -74,7 +79,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
         map(({ name }) => name),
         takeUntil(this.destroy$),
       )
-      .subscribe(themeName => this.currentTheme = themeName);
+      .subscribe(themeName => {
+         // this.currentTheme = themeName;
+        if( localStorage.getItem('activeTheme')) {
+          this.currentTheme = JSON.parse(  localStorage.getItem('activeTheme') );
+          this.changeTheme(JSON.parse(  localStorage.getItem('activeTheme')));
+        } else {
+          this.currentTheme = themeName;
+          this.changeTheme(themeName);
+        }
+
+      } );
   }
 
   ngOnDestroy() {
@@ -84,6 +99,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   changeTheme(themeName: string) {
     this.themeService.changeTheme(themeName);
+    localStorage.setItem('activeTheme', JSON.stringify(  themeName));
+    console.log('acittttt : ', themeName );
+
+    this.financeService.activeTheme.next(themeName);
+
+
   }
 
   toggleSidebar(): boolean {
@@ -96,5 +117,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   navigateHome() {
     this.menuService.navigateHome();
     return false;
+  }
+
+  setIndicators() {
+    this.financeService.setIndicatorsValue(this.checked);
   }
 }

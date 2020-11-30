@@ -169,3 +169,14 @@ export interface Token {
   session_state: string;
 
 }
+
+export interface DailyForex {
+  metadata: any;
+  forexData: [{
+    dateTime: Date,
+    open: number,
+    high: number,
+    low: number,
+    close: number
+  }];
+}

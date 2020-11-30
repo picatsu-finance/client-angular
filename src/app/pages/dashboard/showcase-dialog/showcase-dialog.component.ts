@@ -16,7 +16,18 @@ export class ShowcaseDialogComponent implements OnInit {
   @Input() type: string;
   quantity: number = 1;
   selectedTickers: SelectedTickers[] = [];
-  blancSelectedTickers: SelectedTickers;
+  blancSelectedTickers: SelectedTickers = {
+    userId: null,
+    buyPrice: null,
+    name: null,
+    code: null,
+    maxThreshold: null,
+    minThreshold: null,
+    price: null,
+    type: null,
+    quantity: null,
+    description: null,
+  };
 
   constructor(private service: FinanceService,
               protected ref: NbDialogRef<ShowcaseDialogComponent>,
@@ -44,7 +55,7 @@ export class ShowcaseDialogComponent implements OnInit {
 
   ngOnInit() {
     this.selectedTickers = this.service.getSelectedTickers();
-    console.log(this.type + this.value);
+
     if ( this.type === 'stock' ) {
       this.loadStock();
     }
@@ -54,7 +65,7 @@ export class ShowcaseDialogComponent implements OnInit {
     if ( this.type === 'forex') {
       this.loadForex();
     }
-    console.log(this.type + this.value);
+
   }
 
   loadStock() {

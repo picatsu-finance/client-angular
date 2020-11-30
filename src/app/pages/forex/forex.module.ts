@@ -11,12 +11,13 @@ import {
   NbUserModule,
 } from '@nebular/theme';
 
+
 import { ThemeModule } from '../../@theme/theme.module';
 import { ForexRoutingModule } from './forex-routing.module';
 import { ForexComponent } from './forex.component';
 import { ForexMenuComponent } from './forex-menu/forex-menu.component';
-
-import { FormsModule as ngFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { ChartModule } from 'angular2-chartjs';
 
 @NgModule({
   imports: [
@@ -32,7 +33,9 @@ import { FormsModule as ngFormsModule } from '@angular/forms';
     ForexRoutingModule,
     NbSelectModule,
     NbIconModule,
-    ngFormsModule,
+    FormsModule,
+    ChartModule
+
   ],
   declarations: [
     ForexComponent,

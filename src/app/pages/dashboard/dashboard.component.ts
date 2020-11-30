@@ -11,32 +11,44 @@ export class DashboardComponent implements OnInit {
   followedIndices = ['CAC40', 'NYA', 'COMP', 'SPX', 'RUT', 'NDX', 'JPN'];
   dataToDisplay = "";
   listGlobalIndices: GlobalIndicesData[];
+  displayIndicators: boolean;
   constructor(private service: FinanceService) { }
 
   ngOnInit() {
+    this.service.getIndicatorsValue().subscribe((value) => {
+      this.displayIndicators = value;
+    });
 
-    this.initGlobalIndices();
-   setInterval(() => {
+
       this.initGlobalIndices();
-    }, 20000);
+      setInterval(() => {
+        this.initGlobalIndices();
+      }, 300000);
+
+
   }
 
   initGlobalIndices() {
-    this.listGlobalIndices = [];
-    this.service.getGlobalIndicesData().subscribe( (x: any) => {
-      this.listGlobalIndices = x.data;
-      this.dataToDisplay = '';
-      this.listGlobalIndices.forEach( (value: GlobalIndicesData) => {
-        if ( value.netChange < 0 ) {
+    if(!this.displayIndicators) {
+      return;
+    }
+      this.listGlobalIndices = [];
+      this.service.getGlobalIndicesData().subscribe( (x: any) => {
+        this.listGlobalIndices = x.data;
+        this.dataToDisplay = '';
+        this.listGlobalIndices.forEach( (value: GlobalIndicesData) => {
+          if ( value.netChange < 0 ) {
 
-          this.dataToDisplay += value.companyName + ' <em class="redValue" > ' + value.percentageChange + ' </em> ';
-        } else {
-          this.dataToDisplay += value.companyName + ' <em class="greenValue" > ' + value.percentageChange + ' </em> ';
-        }
+            this.dataToDisplay += value.companyName + ' <em class="redValue" > ' + value.percentageChange + ' </em> ';
+          } else {
+            this.dataToDisplay += value.companyName + ' <em class="greenValue" > ' + value.percentageChange + ' </em> ';
+          }
 
-        this.dataToDisplay += ' &nbsp&nbsp&nbsp&nbsp&nbsp &nbsp  ';
-      } );
-    });
+          this.dataToDisplay += ' &nbsp&nbsp&nbsp&nbsp&nbsp &nbsp  ';
+        } );
+      });
+
+
   }
 
   buildUrl() {
@@ -46,7 +58,6 @@ export class DashboardComponent implements OnInit {
     chart += 'chartFor=' + x + '&';
     symbol += 'symbol=' + x + '&';
     });
-    console.log(chart + symbol);
-    return chart + symbol;
+     return chart + symbol;
   }
 }

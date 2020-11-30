@@ -8,11 +8,14 @@ import { environment } from '../../../environments/environment';
 export class AdminService {
 
   private optionRequete = {
-    headers: new HttpHeaders({
+   /* headers: new HttpHeaders({
       'Access-Control-Allow-Origin': '*',
-    }),
+    }),*/
   };
-  constructor(private  http: HttpClient) { }
+  constructor(private  http: HttpClient) {
+
+
+  }
 
   /// POST
   postNewForex() {

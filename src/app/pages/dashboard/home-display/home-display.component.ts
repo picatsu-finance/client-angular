@@ -1,9 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NbDialogService, NbThemeService} from '@nebular/theme';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { NbComponentStatus, NbDialogService, NbThemeService, NbToastrService } from '@nebular/theme';
 import { takeWhile } from 'rxjs/operators';
 
-import { UserActivityData, UserActive } from '../../../@core/data/user-activity';
-import {FinanceService} from '../../utils/finance.service';
+ import {FinanceService} from '../../utils/finance.service';
 import {
   Crypto,
   CryptoPaginated,
@@ -15,7 +14,8 @@ import {
   TickersPaginated,
 } from '../../utils/model';
 import {ShowcaseDialogComponent} from '../showcase-dialog/showcase-dialog.component';
-import { AuthService } from '../../utils/auth.service';
+import { NbToastrConfig } from '@nebular/theme/components/toastr/toastr-config';
+
 
 @Component({
   selector: 'ngx-home-display',
@@ -23,6 +23,8 @@ import { AuthService } from '../../utils/auth.service';
   templateUrl: './home-display.component.html',
 })
 export class HomeDisplayComponent implements OnDestroy, OnInit {
+  @HostBinding('class')
+  classes = 'example-items-rows';
   display: boolean = false;
   private alive = true;
   type = 'stock';
@@ -39,7 +41,8 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
   public shoudRefreshTable: boolean;
   constructor(private themeService: NbThemeService,
               private service: FinanceService,
-              private dialogService: NbDialogService) {
+              private dialogService: NbDialogService,
+              private toastrService: NbToastrService) {
 
     this.themeService.getJsTheme()
       .pipe(takeWhile(() => this.alive))
@@ -49,7 +52,7 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
 
     setInterval(() => {
       this.retrieveSavedValues();
-    }, 10000);
+    }, 300000);
   }
 
 
@@ -70,23 +73,40 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
     });
   }
 
+  showToast(status: NbComponentStatus, messsage: string, code: string) {
+    this.toastrService.show(messsage, `Check: ${code}`,
+      { status: status, position: 'bottom-end', duration : 10000 } as NbToastrConfig);
+  }
+  selectWichToaster(value: number, maxthreshold: number, minTreshold: number,  code: string) {
+    if( value <= minTreshold ) {
+      this.showToast('danger', 'Think about it man ! ', code);
+    }
+    if( value >= maxthreshold) {
+      this.showToast('success', 'You can sell ;) ', code);
+    }
+  }
   retrieveSavedValues() {
     this.selectedTickers = this.service.getSelectedTickers();
     this.selectedTickers.forEach(x => {
       if ( x.type === 'stock') {
         this.service.loadSingleStockPrice(x.code).subscribe((value: number) => {
+          this.selectWichToaster(value, x.maxThreshold, x.minThreshold, x.code);
           x.price = value;
+
         });
       }
 
       if ( x.type === 'crypto') {
         this.service.loadSingleCryptoPrice(x.code, 'USD').subscribe((value: CryptoPrices) => {
+          this.selectWichToaster(value.quoteResponse.result[0].regularMarketPrice,
+            x.maxThreshold, x.minThreshold, x.code);
           x.price = value.quoteResponse.result[0].regularMarketPrice;
         });
       }
 
       if ( x.type === 'forex') {
         this.service.loadSingleForexPrice(x.code, 'USD').subscribe((value: any) => {
+          this.selectWichToaster(value.exchangeRate,  x.maxThreshold, x.minThreshold, x.code);
           x.price = value.exchangeRate;
         });
       }
@@ -106,7 +126,7 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
     }
   }
 
-  ////////////////////// OPEN POP UP 
+  ////////////////////// OPEN POP UP
 
   openStock(item: any, type: string) {
     // @ts-ignore
@@ -115,15 +135,14 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
         value: item,
         type: type,
       },
-      
+
     });
 
     this.retrieveSavedValues();
   }
 
   openCrypto(item: any, type: string) {
-    console.log(item);
-    // @ts-ignore
+     // @ts-ignore
     this.dialogService.open(ShowcaseDialogComponent, {
       context: {
         value:  {
@@ -139,7 +158,7 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
 
   openForex(item: any, type: string) {
     // @ts-ignore
-    console.log(item + type);
+
     this.dialogService.open(ShowcaseDialogComponent, {
       context: {
         value:  {
@@ -174,7 +193,7 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
     });
   }
 
-  ////////////////////// SEARCH ITEMS 
+  ////////////////////// SEARCH ITEMS
 
   search() {
     if (this.query.length >= 3) {
@@ -197,7 +216,7 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
     }
   }
 
-  ////////////////////// PAGINATE ITEMS 
+  ////////////////////// PAGINATE ITEMS
 
   Paginate(direction: string) {
 
@@ -262,7 +281,7 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
     this.service.setSelectedTickersAndValidate(this.selectedTickers);
   }
 
-  
+
   removeItem(item: SelectedTickers) {
     const index: number = this.selectedTickers.indexOf(item);
     if (index !== -1) {

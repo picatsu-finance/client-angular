@@ -1,1 +1,80 @@
-<h5> Forex data view in progress </h5>
+<nb-card size="giant">
+  <nb-card-header>
+    <br>
+    <br>
+
+    <nb-select placeholder="from"
+               [(ngModel)]="from"
+
+               status="primary" style="float: left; margin-right: 30%; width: 20%">
+
+      <nb-option *ngFor="let forex of forexList"
+                 [value]="forex">{{forex.name}}</nb-option>
+    </nb-select>
+
+    <nb-select placeholder="To"
+               [(ngModel)]="to"
+
+               (selectedChange)="selectionChanged($event)"
+               status="primary" style="float: right; margin-right: 30%; width: 20%">
+      <nb-option *ngFor="let forex of forexList"
+                 [value]="forex">{{forex.name}}</nb-option>
+    </nb-select>
+
+
+  </nb-card-header>
+  <nb-card-body class="example-items-col">
+
+    <div *ngIf="isLoading">
+      <h3  style="margin-left: 20%"> Loading ...  </h3>
+    </div>
+
+    <div *ngIf="!isLoading && to && from && response">
+
+      <br>
+      <br>
+      <table class="customTable">
+
+        <tr >
+          <th>Exchange rate</th>
+          <th>Quantity </th>
+          <th>Price </th>
+
+        </tr>
+
+        <tr>
+
+          <td class="visited-percentages"  >
+            {{ response.exchangeRate}}
+          </td>
+
+          <td class="visited-percentages" >
+            <input type="text" nbInput   shape="semi-round"  [(ngModel)]="quantity" >
+          </td>
+
+          <td class="visited-percentages" >
+            {{ getPrice() }}
+          </td>
+
+
+
+        </tr>
+      </table>
+
+      <br>
+      <h6 style="text-align: center"> {{from.name}}</h6>
+      <br>
+      <chart type="line" [data]="data" [options]="options" style="height: 500px"></chart>
+
+    </div>
+
+    <div *ngIf="response === null" style=" text-align: center; top: 900%; margin-top: 10%;
+    left: 40%;">
+
+      No Data found
+    </div>
+  </nb-card-body>
+</nb-card>
+
+
+

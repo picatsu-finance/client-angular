@@ -1,1 +1,40 @@
-<h5> Crypto data view in progress </h5>
+<nb-card size="giant">
+  <nb-card-header>
+    <br>
+    <br>
+
+    <nb-select placeholder="from"
+               [(ngModel)]="from"
+                (selectedChange)="getSpecificValue()"
+               status="primary" style="float: left; margin-right: 30%; width: 20%">
+      <nb-option *ngFor="let crypto of cryptoList"
+                 [value]="crypto">{{crypto.name}}</nb-option>
+    </nb-select>
+
+
+  </nb-card-header>
+  <nb-card-body class="example-items-col">
+
+    <div *ngIf="isLoading">
+      <h3  style="margin-left: 20%"> Loading ...  </h3>
+    </div>
+
+    <div *ngIf="!isLoading && from && response">
+
+       <div *ngIf="response && response.quoteResponse.result[0].coinImageUrl">
+         <h6 style="text-align: center"> {{from.name}}</h6>
+         <img src="{{response.quoteResponse.result[0].coinImageUrl}}"/>
+       </div>
+      <chart type="horizontalBar" [data]="data" [options]="options" style="height: 500px"></chart>
+
+    </div>
+
+    <div *ngIf="response === null">
+
+      No Data found
+    </div>
+  </nb-card-body>
+</nb-card>
+
+
+

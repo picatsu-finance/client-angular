@@ -8,4 +8,5 @@ export const environment = {
   production: false,
   apiUrl: '/local',
   loginUrl: '/login',
+  nasdaqAPI: '/local/indice'
 };

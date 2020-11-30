@@ -6,3 +6,17 @@
     margin: 0.5rem;
   }
 }
+
+
+.chart-box {
+  max-width: 650px;
+  margin: 35px auto;
+}
+#chart-candlestick,
+#chart-bar {
+  max-width: 90%;
+}
+
+#chart-bar {
+  margin-top: -30px;
+}
