@@ -20,6 +20,7 @@ import { CustomBasketRoutingModule } from './custom-basket-routing.module';
 // components
 import { CustomBasketComponent } from './custom-basket.component';
 import { CustomBasketMenuComponent } from './custom-basket-menu/custom-basket-menu.component';
+import { MyComponentWrapperComponent } from './importingCalendar/MyComponentWrapperComponent';
 
 const COMPONENTS = [
   CustomBasketComponent,
@@ -52,6 +53,7 @@ const SERVICES = [
     ],
   declarations: [
     ...COMPONENTS,
+    MyComponentWrapperComponent,
   ],
   providers: [
     ...SERVICES,
