@@ -1,47 +1,77 @@
-import { Component, TemplateRef } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
+import { OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { element } from 'protractor';
+import { of } from 'rxjs';
+import { forkJoin } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { CustomBasketService } from './custombasket.service';
 
 @Component({
   selector: 'ngx-custom-basket-menu',
   templateUrl: 'custom-basket-menu.component.html',
   styleUrls: ['custom-basket-menu.component.scss'],
 })
-export class CustomBasketMenuComponent {
+export class CustomBasketMenuComponent implements OnInit {
+  data: any[] = [];
+  isLoading = true;
+  settings = {
+    actions: false,
 
-  names: string[] = [];
+    pager: {
+      display: true,
+      perPage: 100,
+    },
+    columns: {
+      Société: {
+        title: 'Société',
+      },
+      DateDeDétachement: {
+        title: 'Date De Détachement',
+        filter: {
+          type: 'daterange',
+          config: {
+            daterange: {
+              format: 'mm/dd/yyyy',
+            },
+          },
+        },
+      },
+      DateDePaiement: {
+        title: 'Date De Paiement',
+        filter: {
+          type: 'daterange',
+          config: {
+            daterange: {
+              format: 'mm/dd/yyyy',
+            },
+          },
+        },
+      },
+      Dividende: {
+        title: 'Dividende',
+      },
+      prix: {
+        title: 'Prix',
+      },
+      rendement: {
+        title: 'rentabilite en %',
+      },
+      TypeDeDividende: {
+        title: 'Type',
+      },
+      Exercice: {
+        title: 'Exercice',
+      },
+    },
+  };
+  constructor(private _service: CustomBasketService) {}
 
-  constructor(private dialogService: NbDialogService) {}
-
-  open2(dialog: TemplateRef<any>) {
-    this.dialogService.open(
-      dialog,
-      { context: 'this is some additional data passed to dialog' });
-  }
-
-  openWithoutBackdrop(dialog: TemplateRef<any>) {
-    this.dialogService.open(
-      dialog,
-      {
-        context: 'this is some additional data passed to dialog',
-        hasBackdrop: false,
-      });
-  }
-
-  openWithoutBackdropClick(dialog: TemplateRef<any>) {
-    this.dialogService.open(
-      dialog,
-      {
-        context: 'this is some additional data passed to dialog',
-        closeOnBackdropClick: false,
-      });
-  }
-
-  openWithoutEscClose(dialog: TemplateRef<any>) {
-    this.dialogService.open(
-      dialog,
-      {
-        context: 'this is some additional data passed to dialog',
-        closeOnEsc: false,
-      });
+  ngOnInit(): void {
+    this.isLoading = true;
+    this._service.getAllDididendes().subscribe((res) => {
+      // @ts-ignore
+      this.data = res;
+      this.isLoading = false;
+    });
   }
 }

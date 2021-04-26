@@ -2,7 +2,7 @@ import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { NbComponentStatus, NbDialogService, NbThemeService, NbToastrService } from '@nebular/theme';
 import { takeWhile } from 'rxjs/operators';
 
- import {FinanceService} from '../../utils/finance.service';
+import { FinanceService } from '../../utils/finance.service';
 import {
   Crypto,
   CryptoPaginated,
@@ -13,9 +13,9 @@ import {
   Tickers,
   TickersPaginated,
 } from '../../utils/model';
-import {ShowcaseDialogComponent} from '../showcase-dialog/showcase-dialog.component';
+import { ShowcaseDialogComponent } from '../showcase-dialog/showcase-dialog.component';
 import { NbToastrConfig } from '@nebular/theme/components/toastr/toastr-config';
-
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'ngx-home-display',
@@ -39,22 +39,25 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
   listForex: ForexModel[] = null;
   selectedTickers: SelectedTickers[] = [];
   public shoudRefreshTable: boolean;
-  constructor(private themeService: NbThemeService,
-              private service: FinanceService,
-              private dialogService: NbDialogService,
-              private toastrService: NbToastrService) {
-
-    this.themeService.getJsTheme()
+  constructor(
+    private themeService: NbThemeService,
+    private service: FinanceService,
+    private dialogService: NbDialogService,
+    private toastrService: NbToastrService
+  ) {
+    this.themeService
+      .getJsTheme()
       .pipe(takeWhile(() => this.alive))
-      .subscribe(theme => {
+      .subscribe((theme) => {
         this.currentTheme = theme.name;
-    });
-
-    setInterval(() => {
-      this.retrieveSavedValues();
-    }, 300000);
+      });
+    this.retrieveSavedValues();
+    if (environment.production) {
+      setInterval(() => {
+        this.retrieveSavedValues();
+      }, 3000000);
+    }
   }
-
 
   ngOnDestroy() {
     this.alive = false;
@@ -66,7 +69,7 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
     this.getForexList();
     this.retrieveSavedValues();
     this.service.getValue().subscribe((value) => {
-      if ( value ) {
+      if (value) {
         this.retrieveSavedValues();
       }
       this.shoudRefreshTable = value;
@@ -74,39 +77,45 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
   }
 
   showToast(status: NbComponentStatus, messsage: string, code: string) {
-    this.toastrService.show(messsage, `Check: ${code}`,
-      { status: status, position: 'bottom-end', duration : 10000 } as NbToastrConfig);
+    this.toastrService.show(messsage, `Check: ${code}`, {
+      status: status,
+      position: 'bottom-end',
+      duration: 10000,
+    } as NbToastrConfig);
   }
-  selectWichToaster(value: number, maxthreshold: number, minTreshold: number,  code: string) {
-    if( value <= minTreshold ) {
+  selectWichToaster(value: number, maxthreshold: number, minTreshold: number, code: string) {
+    if (value <= minTreshold) {
       this.showToast('danger', 'Think about it man ! ', code);
     }
-    if( value >= maxthreshold) {
+    if (value >= maxthreshold) {
       this.showToast('success', 'You can sell ;) ', code);
     }
   }
   retrieveSavedValues() {
     this.selectedTickers = this.service.getSelectedTickers();
-    this.selectedTickers.forEach(x => {
-      if ( x.type === 'stock') {
+    this.selectedTickers.forEach((x) => {
+      if (x.type === 'stock') {
         this.service.loadSingleStockPrice(x.code).subscribe((value: number) => {
           this.selectWichToaster(value, x.maxThreshold, x.minThreshold, x.code);
           x.price = value;
-
         });
       }
 
-      if ( x.type === 'crypto') {
+      if (x.type === 'crypto') {
         this.service.loadSingleCryptoPrice(x.code, 'USD').subscribe((value: CryptoPrices) => {
-          this.selectWichToaster(value.quoteResponse.result[0].regularMarketPrice,
-            x.maxThreshold, x.minThreshold, x.code);
+          this.selectWichToaster(
+            value.quoteResponse.result[0].regularMarketPrice,
+            x.maxThreshold,
+            x.minThreshold,
+            x.code
+          );
           x.price = value.quoteResponse.result[0].regularMarketPrice;
         });
       }
 
-      if ( x.type === 'forex') {
+      if (x.type === 'forex') {
         this.service.loadSingleForexPrice(x.code, 'USD').subscribe((value: any) => {
-          this.selectWichToaster(value.exchangeRate,  x.maxThreshold, x.minThreshold, x.code);
+          this.selectWichToaster(value.exchangeRate, x.maxThreshold, x.minThreshold, x.code);
           x.price = value.exchangeRate;
         });
       }
@@ -115,13 +124,13 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
 
   refresh(type: string) {
     this.query = '';
-    if ( type === 'stock') {
+    if (type === 'stock') {
       this.getTickersList();
     }
-    if ( type === 'crypto') {
+    if (type === 'crypto') {
       this.getCryptoList();
     }
-    if ( type === 'forex') {
+    if (type === 'forex') {
       this.getForexList();
     }
   }
@@ -135,17 +144,16 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
         value: item,
         type: type,
       },
-
     });
 
     this.retrieveSavedValues();
   }
 
   openCrypto(item: any, type: string) {
-     // @ts-ignore
+    // @ts-ignore
     this.dialogService.open(ShowcaseDialogComponent, {
       context: {
-        value:  {
+        value: {
           name: item.name,
           code: item.symbol,
         },
@@ -161,7 +169,7 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
 
     this.dialogService.open(ShowcaseDialogComponent, {
       context: {
-        value:  {
+        value: {
           name: item.name,
           code: item.code,
         },
@@ -172,23 +180,22 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
     this.retrieveSavedValues();
   }
 
-
   ////////////////////// GET ITEMS List
 
   getTickersList() {
-    this.service.getListTickers(this.page, this.size).subscribe( (x: TickersPaginated) => {
+    this.service.getListTickers(this.page, this.size).subscribe((x: TickersPaginated) => {
       this.listTickers = x.content;
     });
   }
 
   getCryptoList() {
-    this.service.getListCrypto(this.page, this.size).subscribe( (x: CryptoPaginated) => {
+    this.service.getListCrypto(this.page, this.size).subscribe((x: CryptoPaginated) => {
       this.listCrypto = x.content;
     });
   }
 
   getForexList() {
-    this.service.getListForex(this.page, this.size).subscribe( (x: ForexModelPaginated) => {
+    this.service.getListForex(this.page, this.size).subscribe((x: ForexModelPaginated) => {
       this.listForex = x.content;
     });
   }
@@ -197,36 +204,38 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
 
   search() {
     if (this.query.length >= 3) {
-      this.service.searchStr(this.query).subscribe( (x: Tickers[]) => { this.listTickers = x; });
-
+      this.service.searchStr(this.query).subscribe((x: Tickers[]) => {
+        this.listTickers = x;
+      });
     }
   }
 
   searchCrypto() {
     if (this.query.length >= 3) {
-      this.service.searchCryptoStr(this.query).subscribe( (x: Crypto[]) => { this.listCrypto = x; });
-
+      this.service.searchCryptoStr(this.query).subscribe((x: Crypto[]) => {
+        this.listCrypto = x;
+      });
     }
   }
 
   searchForex() {
     if (this.query.length >= 3) {
-      this.service.searchForexStr(this.query).subscribe( (x: ForexModel[]) => { this.listForex = x; });
-
+      this.service.searchForexStr(this.query).subscribe((x: ForexModel[]) => {
+        this.listForex = x;
+      });
     }
   }
 
   ////////////////////// PAGINATE ITEMS
 
   Paginate(direction: string) {
-
     if (direction === 'right') {
       this.page++;
       this.getTickersList();
     }
 
     if (direction === 'left') {
-      if (this.page > 0 ) {
+      if (this.page > 0) {
         this.page--;
       }
       this.getTickersList();
@@ -234,14 +243,13 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
   }
 
   PaginateCrypto(direction: string) {
-
     if (direction === 'right') {
       this.page++;
       this.getCryptoList();
     }
 
     if (direction === 'left') {
-      if (this.page > 0 ) {
+      if (this.page > 0) {
         this.page--;
       }
       this.getCryptoList();
@@ -249,14 +257,13 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
   }
 
   PaginateForex(direction: string) {
-
     if (direction === 'right') {
       this.page++;
       this.getForexList();
     }
 
     if (direction === 'left') {
-      if (this.page > 0 ) {
+      if (this.page > 0) {
         this.page--;
       }
       this.getForexList();
@@ -269,8 +276,8 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
   ////////////////////// OTHERS
 
   loadPrice(item: Tickers) {
-    this.service.loadSingleStockPrice(item.code).subscribe( (x: number) => {
-      this.selectedTickers.forEach( value => {
+    this.service.loadSingleStockPrice(item.code).subscribe((x: number) => {
+      this.selectedTickers.forEach((value) => {
         if (value.code === item.code) {
           value.price = x;
         }
@@ -281,7 +288,6 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
     this.service.setSelectedTickersAndValidate(this.selectedTickers);
   }
 
-
   removeItem(item: SelectedTickers) {
     const index: number = this.selectedTickers.indexOf(item);
     if (index !== -1) {
@@ -291,6 +297,6 @@ export class HomeDisplayComponent implements OnDestroy, OnInit {
   }
 
   getGain(item: SelectedTickers) {
-    return ((item.price * item.quantity)  -   (item.buyPrice * item.quantity) ).toFixed(3);
+    return (item.price * item.quantity - item.buyPrice * item.quantity).toFixed(3);
   }
 }

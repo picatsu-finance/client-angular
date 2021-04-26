@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-    NbButtonModule,
-    NbCardModule,
-    NbCheckboxModule,
-    NbDialogModule,
-    NbInputModule, NbListModule,
-    NbPopoverModule,
-    NbSelectModule,
-    NbTabsetModule,
-    NbTooltipModule,
-    NbWindowModule,
+  NbButtonModule,
+  NbCardModule,
+  NbCheckboxModule,
+  NbDialogModule,
+  NbInputModule,
+  NbListModule,
+  NbPopoverModule,
+  NbSelectModule,
+  NbTabsetModule,
+  NbTooltipModule,
+  NbWindowModule,
 } from '@nebular/theme';
 
 // modules
@@ -20,12 +21,9 @@ import { CustomBasketRoutingModule } from './custom-basket-routing.module';
 // components
 import { CustomBasketComponent } from './custom-basket.component';
 import { CustomBasketMenuComponent } from './custom-basket-menu/custom-basket-menu.component';
-import { MyComponentWrapperComponent } from './importingCalendar/MyComponentWrapperComponent';
-
-const COMPONENTS = [
-  CustomBasketComponent,
-  CustomBasketMenuComponent,
-];
+import { CustomBasketService } from './custom-basket-menu/custombasket.service';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+const COMPONENTS = [CustomBasketComponent, CustomBasketMenuComponent];
 
 const MODULES = [
   FormsModule,
@@ -41,23 +39,15 @@ const MODULES = [
   NbInputModule,
   NbSelectModule,
   NbTooltipModule,
+  NbListModule,
+  Ng2SmartTableModule,
 ];
 
-const SERVICES = [
-];
+const SERVICES = [CustomBasketService];
 
 @NgModule({
-    imports: [
-        ...MODULES,
-        NbListModule,
-    ],
-  declarations: [
-    ...COMPONENTS,
-    MyComponentWrapperComponent,
-  ],
-  providers: [
-    ...SERVICES,
-  ],
+  imports: [...MODULES],
+  declarations: [...COMPONENTS],
+  providers: [...SERVICES],
 })
-export class CustomBasketModule {
-}
+export class CustomBasketModule {}

@@ -1,3 +1,9 @@
-<h5> Custom indices  data view in progress </h5>
+ 
+<div *ngIf="!isLoading">
+<ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
+</div>
 
-<ngx-wrapper-component></ngx-wrapper-component>
+ 
+<div *ngIf="isLoading">
+    ... Loading 
+    </div>

@@ -14,7 +14,6 @@ import { FinanceService } from '../../../pages/utils/finance.service';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
   user: any;
@@ -40,56 +39,58 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
   checked: boolean = true;
 
-  constructor(private sidebarService: NbSidebarService,
-              private menuService: NbMenuService,
-              private themeService: NbThemeService,
-              private userService: UserData,
-              private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService,
-              private financeService: FinanceService,
-              public auth: AuthenticationService) {
-    this.financeService.getIndicatorsValue().subscribe(elem => {
+  constructor(
+    private sidebarService: NbSidebarService,
+    private menuService: NbMenuService,
+    private themeService: NbThemeService,
+    private userService: UserData,
+    private layoutService: LayoutService,
+    private breakpointService: NbMediaBreakpointsService,
+    private financeService: FinanceService,
+    public auth: AuthenticationService
+  ) {
+    this.financeService.getIndicatorsValue().subscribe((elem) => {
       this.checked = elem;
     });
   }
   getUser() {
-    if ( this.auth.currentUserValue  ) {
-      this.user = {name: this.auth.currentUserValue.username, picture: '' };
+    if (this.auth.currentUserValue) {
+      this.user = { name: this.auth.currentUserValue.username, picture: '' };
     } else {
       this.user = { name: 'Anonymous', picture: 'assets/images/jack.jpg' };
     }
   }
   ngOnInit() {
-
     this.getUser();
 
     const { xl } = this.breakpointService.getBreakpointsMap();
-    this.themeService.onMediaQueryChange()
+    this.themeService
+      .onMediaQueryChange()
       .pipe(
         map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
-        takeUntil(this.destroy$),
+        takeUntil(this.destroy$)
       )
-      .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
+      .subscribe((isLessThanXl: boolean) => (this.userPictureOnly = isLessThanXl));
 
-    this.themeService.onThemeChange()
+    this.themeService
+      .onThemeChange()
       .pipe(
         map(({ name }) => name),
-        takeUntil(this.destroy$),
+        takeUntil(this.destroy$)
       )
-      .subscribe(themeName => {
-         // this.currentTheme = themeName;
-        if( localStorage.getItem('activeTheme')) {
-          this.currentTheme = JSON.parse(  localStorage.getItem('activeTheme') );
-          this.changeTheme(JSON.parse(  localStorage.getItem('activeTheme')));
+      .subscribe((themeName) => {
+        // this.currentTheme = themeName;
+        if (localStorage.getItem('activeTheme')) {
+          this.currentTheme = JSON.parse(localStorage.getItem('activeTheme'));
+          this.changeTheme(JSON.parse(localStorage.getItem('activeTheme')));
         } else {
           this.currentTheme = themeName;
           this.changeTheme(themeName);
         }
-
-      } );
+      });
   }
 
   ngOnDestroy() {
@@ -99,12 +100,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   changeTheme(themeName: string) {
     this.themeService.changeTheme(themeName);
-    localStorage.setItem('activeTheme', JSON.stringify(  themeName));
-    console.log('acittttt : ', themeName );
+    localStorage.setItem('activeTheme', JSON.stringify(themeName));
 
     this.financeService.activeTheme.next(themeName);
-
-
   }
 
   toggleSidebar(): boolean {

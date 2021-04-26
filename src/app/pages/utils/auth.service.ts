@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { CookieService } from 'ngx-cookie-service';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {LoginService} from './login.service';
-import {Router} from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { LoginService } from './login.service';
+import { Router } from '@angular/router';
 import { Token } from './model';
 
 @Injectable({
@@ -24,11 +24,7 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
 
-  constructor(
-    private router: Router,
-    private loginService: LoginService,
-    private cookie: CookieService,
-  ) {
+  constructor(private router: Router, private loginService: LoginService, private cookie: CookieService) {
     this.cookie.get('currentUser_finance');
   }
 
@@ -46,21 +42,19 @@ export class AuthService {
 
   login(userName: string, password: string) {
     this.isLoading.next(true);
-    return this.loginService
-      .getUserInfos(userName, password)
-      .subscribe((userInfos) => {
-        if (!this.checkIfLogged()) {
-          this.cookie.set('currentUser_finance', JSON.stringify(userInfos));
-          this.loggedIn.next(true);
-          this.isLoading.next(false);
-          this.router.navigateByUrl('/home');
-          // this.toaster.success('Connexion reussie', '', {timeOut: 800});
-        } else {
-          this.loggedIn.next(false);
-          // this.router.navigateByUrl("/login");
-          this.isLoading.next(false);
-        }
-      });
+    return this.loginService.getUserInfos(userName, password).subscribe((userInfos) => {
+      if (!this.checkIfLogged()) {
+        this.cookie.set('currentUser_finance', JSON.stringify(userInfos));
+        this.loggedIn.next(true);
+        this.isLoading.next(false);
+        this.router.navigateByUrl('/home');
+        // this.toaster.success('Connexion reussie', '', {timeOut: 800});
+      } else {
+        this.loggedIn.next(false);
+        // this.router.navigateByUrl("/login");
+        this.isLoading.next(false);
+      }
+    });
     /*
     if (user.userName == "admin" && user.password == "admin") {
       // {3}

@@ -1,6 +1,6 @@
 {
   "/local/*": {
-    "target": "http://localhost:9090",
+    "target": "http://146.59.195.214:9090",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
